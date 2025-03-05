@@ -1,9 +1,8 @@
-package com.example.petadoptionapp.ui.components
+package com.example.petadoptionapp.ui.components.report
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -17,7 +16,7 @@ import com.example.petadoptionapp.R
 import com.example.petadoptionapp.ui.theme.PetAdoptionAppTheme
 
 @Composable
-fun WelcomeText(modifier: Modifier = Modifier) {
+fun ReportText(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier.padding(
             top = 24.dp,
@@ -25,24 +24,18 @@ fun WelcomeText(modifier: Modifier = Modifier) {
         ),
         verticalArrangement = Arrangement.spacedBy(24.dp)) {
         Text(
-            text = stringResource(R.string.appTitle),
+            text = stringResource(R.string.reportTitle),
             fontWeight = FontWeight.Bold,
             fontSize = 28.sp,
             color = Color.Black
-        )
-        Text(
-            text = stringResource(R.string.appSubtitle),
-            fontWeight = FontWeight.Bold,
-            fontSize = 20.sp,
-            color = MaterialTheme.colorScheme.tertiary
         )
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun WelcomePreview() {
+fun ReportPreview() {
     PetAdoptionAppTheme {
-        WelcomeText()
+        ReportText()
     }
 }
