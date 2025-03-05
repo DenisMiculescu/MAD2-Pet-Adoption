@@ -30,6 +30,7 @@ import com.example.petadoptionapp.R
 import com.example.petadoptionapp.data.AdoptionModel
 import com.example.petadoptionapp.data.fakeAdoptions
 import com.example.petadoptionapp.ui.theme.PetAdoptionAppTheme
+import timber.log.Timber
 import java.util.Date
 
 
@@ -46,7 +47,8 @@ fun AdoptButton(
         Button(
             onClick = {
                 adoptions.add(adoption)
-                Toast.makeText(context, "Adopted ${adoption.petType}!", Toast.LENGTH_SHORT).show()
+                Timber.i("Adoption info : $adoptions")
+                Timber.i("Adoption List info : ${adoptions.toList()}")
             },
             elevation = ButtonDefaults.buttonElevation(20.dp)
         ) {
