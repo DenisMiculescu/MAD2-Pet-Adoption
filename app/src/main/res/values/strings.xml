@@ -17,4 +17,6 @@
     <string name="chipped_false">No</string>
     <string name="show_less">Show Less</string>
     <string name="show_more">Show More</string>
+    <string name="empty_list">No Adoptions Yet - Go put up an Adoption!</string>
+
 </resources>
