@@ -31,8 +31,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import com.example.petadoptionapp.data.AdoptionModel
+import com.example.petadoptionapp.navigation.NavHostProvider
+import com.example.petadoptionapp.navigation.Report
+import com.example.petadoptionapp.navigation.allDestinations
+import com.example.petadoptionapp.ui.components.general.BottomAppBarProvider
 import com.example.petadoptionapp.ui.components.general.MenuItem
+import com.example.petadoptionapp.ui.components.general.TopAppBarProvider
 import com.example.petadoptionapp.ui.screens.ScreenAdopt
 import com.example.petadoptionapp.ui.screens.ScreenReport
 import com.example.petadoptionapp.ui.theme.PetAdoptionAppTheme
@@ -57,59 +65,31 @@ class MainActivity : ComponentActivity() {
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PetAdoptionApp(modifier: Modifier = Modifier) {
+fun PetAdoptionApp(modifier: Modifier = Modifier, navController: NavHostController = rememberNavController()) {
     val adoptions = remember { mutableStateListOf<AdoptionModel>() }
     var selectedMenuItem by remember { mutableStateOf<MenuItem?>(MenuItem.Adopt) }
+    val currentNavBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = currentNavBackStackEntry?.destination
+    val currentBottomScreen =
+        allDestinations.find { it.route == currentDestination?.route } ?: Report
+
 
     Scaffold(
         modifier = modifier,
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = stringResource(id = R.string.app_name),
-                        color = Color.White
-                    )
-                },
-                colors = TopAppBarDefaults.largeTopAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primary
-                ),
-                actions = {
-                    if(selectedMenuItem == MenuItem.Adopt) {
-                        IconButton(onClick = {
-                            selectedMenuItem = MenuItem.Report
-                        }) {
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Filled.List,
-                                contentDescription = "Options",
-                                tint = Color.White,
-                                modifier = Modifier.size(40.dp)
-                            )
-                        }
-                    }
-                    else {
-                        IconButton(onClick = {
-                            selectedMenuItem = MenuItem.Adopt
-                        }) {
-                            Icon(
-                                imageVector = Icons.Filled.Add,
-                                contentDescription = "Options",
-                                tint = Color.White,
-                                modifier = Modifier.size(40.dp)
-                            )
-                        }
-                    }
-                }
-            )
+        topBar = { TopAppBarProvider(currentScreen = currentBottomScreen) },
+        content = { paddingValues ->
+            NavHostProvider(
+                modifier = modifier,
+                navController = navController,
+                paddingValues = paddingValues,
+                adoptions = adoptions)
         },
-        content = {
-            when (selectedMenuItem) {
-                MenuItem.Adopt -> ScreenAdopt(modifier = modifier, adoptions = adoptions)
-                MenuItem.Report -> ScreenReport(modifier = modifier, adoptions = adoptions)
-                else -> {}
-            }
+        bottomBar = {
+            BottomAppBarProvider(navController,
+                currentScreen = currentBottomScreen,)
         }
     )
+
 
 }
 

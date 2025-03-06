@@ -2,9 +2,9 @@
     <string name="app_name">Pet Adoption App</string>
     <string name="appTitle">Welcome!</string>
     <string name="appSubtitle">Welcome to the Pet Adoption App</string>
-    <string name="adoptButton">Adopt</string>
+    <string name="adoptButton">Place for adoption</string>
     <string name="amount">Amount</string>
-    <string name="total">Total : </string>
+    <string name="totalForAdoption">Total pets adopted: </string>
     <string name="totalSoFar">€%d</string>
     <string name="limitExceeded">"A Donation of €%d will exceed Maximum Donations of €10000"</string>
     <string name="reportTitle">Adoption List</string>
@@ -17,6 +17,6 @@
     <string name="chipped_false">No</string>
     <string name="show_less">Show Less</string>
     <string name="show_more">Show More</string>
-    <string name="empty_list">No Adoptions Yet - Go put up an Adoption!</string>
+    <string name="empty_list">No Adoptions Yet - Add an Adoption!</string>
 
 </resources>
