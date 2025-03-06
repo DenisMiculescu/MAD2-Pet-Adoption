@@ -11,6 +11,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Modifier
@@ -24,9 +25,11 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.petadoptionapp.R
 import com.example.petadoptionapp.data.AdoptionModel
-import com.example.petadoptionapp.data.fakeAdoptions
+import com.example.petadoptionapp.ui.screens.adopt.AdoptViewModel
+import com.example.petadoptionapp.ui.screens.listing.ListingViewModel
 import com.example.petadoptionapp.ui.theme.PetAdoptionAppTheme
 import timber.log.Timber
 import java.util.Date
@@ -36,15 +39,18 @@ import java.util.Date
 fun AdoptButton(
     modifier: Modifier = Modifier,
     adoption: AdoptionModel,
-    adoptions: SnapshotStateList<AdoptionModel>,
+    adoptViewModel: AdoptViewModel = hiltViewModel(),
+    listingViewModel: ListingViewModel = hiltViewModel(),
 ) {
+
+    val adoptions = listingViewModel.uiAdoptions.collectAsState().value
 
     val context = LocalContext.current
 
     Row(modifier = modifier) {
         Button(
             onClick = {
-                adoptions.add(adoption)
+                adoptViewModel.insert(adoption)
                 Timber.i("Adoption info : $adoptions")
                 Timber.i("Adoption List info : ${adoptions.toList()}")
             },
@@ -104,7 +110,6 @@ fun AdoptButtonPreview() {
                 location = "Dublin",
                 dateListed = Date(),
             ),
-            adoptions = fakeAdoptions.toMutableStateList()
         )
     }
 }
