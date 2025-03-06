@@ -9,9 +9,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.petadoptionapp.data.AdoptionModel
+import com.example.petadoptionapp.ui.screens.ScreenAbout
 import com.example.petadoptionapp.ui.screens.ScreenAdopt
-import com.example.petadoptionapp.ui.screens.ScreenReport
-
+import com.example.petadoptionapp.ui.screens.ScreenListing
 
 @Composable
 fun NavHostProvider(
@@ -22,16 +22,20 @@ fun NavHostProvider(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Report.route,
+        startDestination = Listing.route,
         modifier = Modifier.padding(paddingValues = paddingValues)) {
 
         composable(route = Adopt.route) {
             //call our 'Adopt' Screen Here
             ScreenAdopt(modifier = modifier, adoptions = adoptions)
         }
-        composable(route = Report.route) {
-            //call our 'Report' Screen Here
-            ScreenReport(modifier = modifier, adoptions = adoptions)
+        composable(route = Listing.route) {
+            //call our 'Listing' Screen Here
+            ScreenListing(modifier = modifier, adoptions = adoptions)
+        }
+        composable(route = About.route) {
+            //call our 'About' Screen Here
+            ScreenAbout(modifier = modifier)
         }
     }
 }

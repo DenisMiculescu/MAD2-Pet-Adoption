@@ -1,4 +1,4 @@
-package com.example.petadoptionapp.ui.components.report
+package com.example.petadoptionapp.ui.components.listing
 
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -10,7 +10,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.petadoptionapp.data.AdoptionModel
 import com.example.petadoptionapp.data.fakeAdoptions
 import com.example.petadoptionapp.ui.theme.PetAdoptionAppTheme
-import java.util.Date
 
 @Composable
 internal fun AdoptionCardList(

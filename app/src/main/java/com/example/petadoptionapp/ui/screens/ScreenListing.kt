@@ -19,12 +19,12 @@ import com.example.petadoptionapp.R
 import com.example.petadoptionapp.data.AdoptionModel
 import com.example.petadoptionapp.data.fakeAdoptions
 import com.example.petadoptionapp.ui.components.general.Centre
-import com.example.petadoptionapp.ui.components.report.AdoptionCardList
-import com.example.petadoptionapp.ui.components.report.ReportText
+import com.example.petadoptionapp.ui.components.listing.AdoptionCardList
+import com.example.petadoptionapp.ui.components.listing.ListingText
 import com.example.petadoptionapp.ui.theme.PetAdoptionAppTheme
 
 @Composable
-fun ScreenReport(modifier: Modifier = Modifier,
+fun ScreenListing(modifier: Modifier = Modifier,
                  adoptions: SnapshotStateList<AdoptionModel>
 ) {
 
@@ -35,7 +35,7 @@ fun ScreenReport(modifier: Modifier = Modifier,
                 end = 24.dp
             ),
         ) {
-            ReportText()
+            ListingText()
             if(adoptions.isEmpty())
                 Centre(Modifier.fillMaxSize()) {
                     Text(color = MaterialTheme.colorScheme.secondary,
@@ -56,9 +56,9 @@ fun ScreenReport(modifier: Modifier = Modifier,
 
 @Preview(showBackground = true)
 @Composable
-fun ReportScreenPreview() {
+fun ListingScreenPreview() {
     PetAdoptionAppTheme {
-        ScreenReport( modifier = Modifier,
+        ScreenListing( modifier = Modifier,
             adoptions = fakeAdoptions.toMutableStateList()
         )
     }

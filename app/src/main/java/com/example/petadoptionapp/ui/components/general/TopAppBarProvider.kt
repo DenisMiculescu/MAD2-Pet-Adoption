@@ -58,7 +58,7 @@ fun TopAppBarProvider(
                 )
 
         },
-        actions = { /*DropDownMenu()*/ }
+        actions = { DropDownMenu() }
     )
 }
 @Preview(showBackground = true)

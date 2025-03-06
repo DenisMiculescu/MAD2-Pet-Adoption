@@ -21,8 +21,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.petadoptionapp.data.AdoptionModel
+import com.example.petadoptionapp.navigation.Listing
 import com.example.petadoptionapp.navigation.NavHostProvider
-import com.example.petadoptionapp.navigation.Report
 import com.example.petadoptionapp.navigation.allDestinations
 import com.example.petadoptionapp.ui.components.general.BottomAppBarProvider
 import com.example.petadoptionapp.ui.components.general.MenuItem
@@ -55,7 +55,7 @@ fun PetAdoptionApp(modifier: Modifier = Modifier, navController: NavHostControll
     val currentNavBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = currentNavBackStackEntry?.destination
     val currentBottomScreen =
-        allDestinations.find { it.route == currentDestination?.route } ?: Report
+        allDestinations.find { it.route == currentDestination?.route } ?: Listing
 
 
     Scaffold(

@@ -3,6 +3,7 @@ package com.example.petadoptionapp.navigation
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.AddCircle
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.ui.graphics.vector.ImageVector
 
 interface AppDestination {
@@ -11,10 +12,10 @@ interface AppDestination {
     val route: String
 }
 
-object Report : AppDestination {
+object Listing : AppDestination {
     override val icon = Icons.AutoMirrored.Filled.List
-    override val label = "Report"
-    override val route = "report"
+    override val label = "Listing"
+    override val route = "listing"
 }
 
 object Adopt : AppDestination {
@@ -23,5 +24,11 @@ object Adopt : AppDestination {
     override val route = "adopt"
 }
 
-val bottomAppBarDestinations = listOf(Adopt, Report)
-val allDestinations = listOf(Report, Adopt)
+object About : AppDestination {
+    override val icon = Icons.Filled.Info
+    override val label = "About"
+    override val route = "about"
+}
+
+val bottomAppBarDestinations = listOf(Adopt, Listing, About)
+val allDestinations = listOf(Listing, Adopt, About)

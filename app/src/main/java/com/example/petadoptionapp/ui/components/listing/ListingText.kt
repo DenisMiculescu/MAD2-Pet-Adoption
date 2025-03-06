@@ -1,4 +1,4 @@
-package com.example.petadoptionapp.ui.components.report
+package com.example.petadoptionapp.ui.components.listing
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,7 +16,7 @@ import com.example.petadoptionapp.R
 import com.example.petadoptionapp.ui.theme.PetAdoptionAppTheme
 
 @Composable
-fun ReportText(modifier: Modifier = Modifier) {
+fun ListingText(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier.padding(
             top = 24.dp,
@@ -24,7 +24,7 @@ fun ReportText(modifier: Modifier = Modifier) {
         ),
         verticalArrangement = Arrangement.spacedBy(24.dp)) {
         Text(
-            text = stringResource(R.string.reportTitle),
+            text = stringResource(R.string.listingTitle),
             fontWeight = FontWeight.Bold,
             fontSize = 28.sp,
             color = Color.Black
@@ -34,8 +34,8 @@ fun ReportText(modifier: Modifier = Modifier) {
 
 @Preview(showBackground = true)
 @Composable
-fun ReportPreview() {
+fun ListingPreview() {
     PetAdoptionAppTheme {
-        ReportText()
+        ListingText()
     }
 }

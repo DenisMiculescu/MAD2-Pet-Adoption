@@ -1,4 +1,4 @@
-package com.example.petadoptionapp.ui.components.report
+package com.example.petadoptionapp.ui.components.listing
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring
