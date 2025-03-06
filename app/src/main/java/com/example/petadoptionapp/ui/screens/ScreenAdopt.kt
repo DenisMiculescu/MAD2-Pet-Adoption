@@ -37,7 +37,10 @@ fun ScreenAdopt(
     var ageMonth by remember { mutableIntStateOf(0) }
 
     Column(
-        modifier = modifier.padding(24.dp),
+        modifier = modifier.padding(
+            start = 24.dp,
+            end = 24.dp
+        ),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         WelcomeText()

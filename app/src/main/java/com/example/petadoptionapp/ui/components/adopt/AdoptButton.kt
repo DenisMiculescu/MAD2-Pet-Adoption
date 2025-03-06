@@ -55,7 +55,7 @@ fun AdoptButton(
             Text(
                 text = stringResource(R.string.adoptButton),
                 fontWeight = FontWeight.Bold,
-                fontSize = 20.sp,
+                fontSize = 10.sp,
                 color = Color.White
             )
         }
@@ -71,7 +71,7 @@ fun AdoptButton(
                         color = Color.Black
                     )
                 ) {
-                    append(stringResource(R.string.total) + " €")
+                    append(stringResource(R.string.totalForAdoption) + " ")
                 }
 
                 withStyle(
