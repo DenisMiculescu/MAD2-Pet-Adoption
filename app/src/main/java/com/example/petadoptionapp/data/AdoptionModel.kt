@@ -1,10 +1,14 @@
 package com.example.petadoptionapp.data
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import java.util.Date
 import kotlin.random.Random
 
+@Entity
 data class AdoptionModel(
-    val id: Int = Random.nextInt(1, 100000),
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
     val petName: String,
     val petType: String,
     val petBreed: String,

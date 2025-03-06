@@ -1,4 +1,4 @@
-package com.example.petadoptionapp.ui.screens
+package com.example.petadoptionapp.ui.screens.adopt
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Text
@@ -23,7 +23,7 @@ import com.example.petadoptionapp.ui.theme.PetAdoptionAppTheme
 import java.util.Date
 
 @Composable
-fun ScreenAdopt(
+fun AdoptScreen(
     modifier: Modifier = Modifier,
     adoptions: SnapshotStateList<AdoptionModel>
 ) {
@@ -89,7 +89,7 @@ fun ScreenAdopt(
 @Composable
 fun AdoptScreenPreview() {
     PetAdoptionAppTheme {
-        ScreenAdopt(
+        AdoptScreen(
             modifier = Modifier,
             adoptions = fakeAdoptions.toMutableStateList()
         )

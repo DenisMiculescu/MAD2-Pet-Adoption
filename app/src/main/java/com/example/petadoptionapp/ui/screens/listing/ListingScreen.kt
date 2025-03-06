@@ -1,4 +1,4 @@
-package com.example.petadoptionapp.ui.screens
+package com.example.petadoptionapp.ui.screens.listing
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,7 +24,7 @@ import com.example.petadoptionapp.ui.components.listing.ListingText
 import com.example.petadoptionapp.ui.theme.PetAdoptionAppTheme
 
 @Composable
-fun ScreenListing(modifier: Modifier = Modifier,
+fun ListingScreen(modifier: Modifier = Modifier,
                  adoptions: SnapshotStateList<AdoptionModel>
 ) {
 
@@ -58,7 +58,7 @@ fun ScreenListing(modifier: Modifier = Modifier,
 @Composable
 fun ListingScreenPreview() {
     PetAdoptionAppTheme {
-        ScreenListing( modifier = Modifier,
+        ListingScreen( modifier = Modifier,
             adoptions = fakeAdoptions.toMutableStateList()
         )
     }
