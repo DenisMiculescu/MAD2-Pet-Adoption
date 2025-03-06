@@ -12,13 +12,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.petadoptionapp.data.AdoptionModel
 import com.example.petadoptionapp.data.fakeAdoptions
-import com.example.petadoptionapp.ui.components.AdoptButton
-import com.example.petadoptionapp.ui.components.AgePickerMonth
-import com.example.petadoptionapp.ui.components.AgePickerYear
-import com.example.petadoptionapp.ui.components.BreedInput
-import com.example.petadoptionapp.ui.components.NameInput
-import com.example.petadoptionapp.ui.components.RadioButtonGroup
-import com.example.petadoptionapp.ui.components.WelcomeText
+import com.example.petadoptionapp.ui.components.adopt.AdoptButton
+import com.example.petadoptionapp.ui.components.adopt.AgePickerMonth
+import com.example.petadoptionapp.ui.components.adopt.AgePickerYear
+import com.example.petadoptionapp.ui.components.adopt.BreedInput
+import com.example.petadoptionapp.ui.components.adopt.NameInput
+import com.example.petadoptionapp.ui.components.adopt.RadioButtonGroup
+import com.example.petadoptionapp.ui.components.adopt.WelcomeText
 import com.example.petadoptionapp.ui.theme.PetAdoptionAppTheme
 import java.util.Date
 

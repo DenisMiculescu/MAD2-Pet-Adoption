@@ -1,4 +1,4 @@
-package com.example.petadoptionapp.ui.components
+package com.example.petadoptionapp.ui.components.adopt
 
 import com.chargemap.compose.numberpicker.ListItemPicker
 import androidx.compose.runtime.Composable

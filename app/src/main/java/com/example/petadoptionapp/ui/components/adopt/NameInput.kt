@@ -1,4 +1,4 @@
-package com.example.petadoptionapp.ui.components
+package com.example.petadoptionapp.ui.components.adopt
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
