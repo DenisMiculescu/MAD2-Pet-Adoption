@@ -31,7 +31,7 @@ fun NavHostProvider(
         }
         composable(route = Listing.route) {
             //call our 'Listing' Screen Here
-            ListingScreen(modifier = modifier, adoptions = adoptions)
+            ListingScreen(modifier = modifier)
         }
         composable(route = About.route) {
             //call our 'About' Screen Here
