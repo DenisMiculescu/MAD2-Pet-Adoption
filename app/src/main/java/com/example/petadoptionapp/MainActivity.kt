@@ -28,7 +28,9 @@ import com.example.petadoptionapp.ui.components.general.BottomAppBarProvider
 import com.example.petadoptionapp.ui.components.general.MenuItem
 import com.example.petadoptionapp.ui.components.general.TopAppBarProvider
 import com.example.petadoptionapp.ui.theme.PetAdoptionAppTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +49,6 @@ class MainActivity : ComponentActivity() {
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PetAdoptionApp(modifier: Modifier = Modifier, navController: NavHostController = rememberNavController()) {
     val adoptions = remember { mutableStateListOf<AdoptionModel>() }

@@ -1,4 +1,4 @@
-package com.example.petadoptionapp.ui.screens
+package com.example.petadoptionapp.ui.screens.about
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -24,7 +24,7 @@ import com.example.petadoptionapp.ui.components.general.Centre
 import com.example.petadoptionapp.ui.theme.PetAdoptionAppTheme
 
 @Composable
-fun ScreenAbout(modifier: Modifier = Modifier) {
+fun AboutScreen(modifier: Modifier = Modifier) {
 
     Column(
         modifier = modifier.background(MaterialTheme.colorScheme.secondary),
@@ -55,6 +55,6 @@ fun ScreenAbout(modifier: Modifier = Modifier) {
 @Composable
 fun AboutScreenPreview() {
     PetAdoptionAppTheme {
-        ScreenAbout( modifier = Modifier)
+        AboutScreen( modifier = Modifier)
     }
 }
