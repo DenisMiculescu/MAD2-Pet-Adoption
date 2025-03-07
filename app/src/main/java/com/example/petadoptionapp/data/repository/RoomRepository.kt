@@ -14,8 +14,13 @@ constructor(private val adoptionDAO: AdoptionDAO) {
     { adoptionDAO.insert(adoption) }
 
     suspend fun update(adoption: AdoptionModel)
-    { adoptionDAO.update(adoption) }
+    { adoptionDAO.update(adoption.id, adoption.petName) }
+
 
     suspend fun delete(adoption: AdoptionModel)
     { adoptionDAO.delete(adoption) }
+
+    fun get(id: Int) = adoptionDAO.get(id)
+
+
 }

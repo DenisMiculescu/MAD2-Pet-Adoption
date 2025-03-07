@@ -26,4 +26,10 @@ constructor(private val repository: RoomRepository) : ViewModel() {
             }
         }
     }
+
+    fun deleteAdoption(adoption: AdoptionModel) {
+        viewModelScope.launch {
+            repository.delete(adoption)
+        }
+    }
 }
