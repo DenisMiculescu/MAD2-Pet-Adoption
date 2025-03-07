@@ -9,7 +9,7 @@ import kotlin.random.Random
 data class AdoptionModel(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
-    val petName: String,
+    var petName: String,
     val petType: String,
     val petBreed: String,
     val ageYear: Int,
