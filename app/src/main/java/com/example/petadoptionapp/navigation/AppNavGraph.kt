@@ -12,6 +12,7 @@ import com.example.petadoptionapp.data.AdoptionModel
 import com.example.petadoptionapp.ui.screens.listing.ListingScreen
 import com.example.petadoptionapp.ui.screens.about.AboutScreen
 import com.example.petadoptionapp.ui.screens.adopt.AdoptScreen
+import com.example.petadoptionapp.ui.screens.details.DetailsScreen
 
 @Composable
 fun NavHostProvider(
@@ -31,11 +32,32 @@ fun NavHostProvider(
         }
         composable(route = Listing.route) {
             //call our 'Listing' Screen Here
-            ListingScreen(modifier = modifier)
+            ListingScreen(modifier = modifier,
+                onClickAdoptionDetails = {
+                        adoptionId : Int ->
+                    navController.navigateToAdoptionDetails(adoptionId)
+                },
+            )
         }
         composable(route = About.route) {
             //call our 'About' Screen Here
             AboutScreen(modifier = modifier)
         }
+        composable(
+            route = Details.route,
+            arguments = Details.arguments
+        )
+        { navBackStackEntry ->
+            val id = navBackStackEntry.arguments?.getInt(Details.idArg)
+            if (id != null) {
+                DetailsScreen()
+            }
+        }
+
     }
 }
+
+private fun NavHostController.navigateToAdoptionDetails(adoptionId: Int) {
+    this.navigate("details/$adoptionId")
+}
+

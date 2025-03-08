@@ -27,6 +27,7 @@ import com.example.petadoptionapp.ui.theme.PetAdoptionAppTheme
 
 @Composable
 fun ListingScreen(modifier: Modifier = Modifier,
+                  onClickAdoptionDetails: (Int) -> Unit,
                   listingViewModel: ListingViewModel = hiltViewModel()
 ) {
     val adoptions = listingViewModel.uiAdoptions.collectAsState().value
@@ -51,7 +52,12 @@ fun ListingScreen(modifier: Modifier = Modifier,
                 }
             else
                 AdoptionCardList(
-                    adoptions = adoptions
+                    adoptions = adoptions,
+                    onClickAdoptionDetails = onClickAdoptionDetails,
+                    onDeleteAdoption = {
+                            adoption: AdoptionModel ->
+                                 listingViewModel.deleteAdoption(adoption)
+                    }
                 )
         }
     }
@@ -62,14 +68,17 @@ fun ListingScreen(modifier: Modifier = Modifier,
 fun ListingScreenPreview() {
     PetAdoptionAppTheme {
         PreviewListingScreen( modifier = Modifier,
-            adoptions = fakeAdoptions.toMutableStateList()
+            adoptions = fakeAdoptions.toMutableStateList(),
+            onClickAdoptionDetails = {}
         )
     }
 }
 
 @Composable
-fun PreviewListingScreen(modifier: Modifier = Modifier,
-                        adoptions: SnapshotStateList<AdoptionModel>
+fun PreviewListingScreen(
+    modifier: Modifier = Modifier,
+    adoptions: SnapshotStateList<AdoptionModel>,
+    onClickAdoptionDetails: () -> Unit
 ) {
 
     Column {
@@ -92,7 +101,9 @@ fun PreviewListingScreen(modifier: Modifier = Modifier,
                 }
             else
                 AdoptionCardList(
-                    adoptions = adoptions
+                    adoptions = adoptions,
+                    onDeleteAdoption = {},
+                    onClickAdoptionDetails = {}
                 )
         }
     }

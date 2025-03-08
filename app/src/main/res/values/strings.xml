@@ -20,6 +20,7 @@
     <string name="empty_list">No Adoptions Yet - Add an Adoption!</string>
     <string name="about_title">About the Pet Adoption App!!</string>
     <string name="about_message">Interested in adopting a new pet?\nVisit our listing page and find your new family member!</string>
-
+    <string name="confirm_delete">Confirm Delete?</string>
+    <string name="confirm_delete_message">Are you sure you want to delete this adoption listing?</string>
 
 </resources>

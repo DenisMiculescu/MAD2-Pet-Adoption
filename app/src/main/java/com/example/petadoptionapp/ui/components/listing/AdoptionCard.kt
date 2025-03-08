@@ -5,6 +5,7 @@ import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material.icons.filled.Pets
@@ -24,20 +25,28 @@ import java.util.*
 
 @Composable
 fun AdoptionCard(
-    adoption: AdoptionModel
+    adoption: AdoptionModel,
+    onClickDelete: () -> Unit,
+    onClickAdoptionDetails: () -> Unit
 ) {
     Card(
         colors = CardDefaults.cardColors(
         ),
         modifier = Modifier.padding(vertical = 4.dp, horizontal = 2.dp)
     ) {
-        AdoptionCardContent(adoption)
+        AdoptionCardContent(adoption, onClickDelete, onClickAdoptionDetails)
     }
 }
 
 @Composable
-private fun AdoptionCardContent(adoption: AdoptionModel) {
+private fun AdoptionCardContent(
+    adoption: AdoptionModel,
+    onClickDelete: () -> Unit,
+    onClickAdoptionDetails: () -> Unit
+) {
     var expanded by remember { mutableStateOf(false) }
+    var showDeleteConfirmDialog by remember { mutableStateOf(false) }
+
 
     Row(
         modifier = Modifier
@@ -87,7 +96,27 @@ private fun AdoptionCardContent(adoption: AdoptionModel) {
                 text = "Listed on: ${DateFormat.getDateInstance().format(adoption.dateListed)}", style = MaterialTheme.typography.labelSmall
             )
             if (expanded) {
-                Text(modifier = Modifier.padding(vertical = 16.dp), text = "Additional details can go here.")
+                Text(modifier = Modifier.padding(vertical = 16.dp), text = "Additional Content Here!")
+                Row(modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween) {
+
+                    FilledTonalButton (onClick = onClickAdoptionDetails) {
+                        Text(text = "Show More")
+                    }
+
+                    FilledTonalIconButton(onClick = {
+                        showDeleteConfirmDialog = true
+                    }) {
+                        Icon(Icons.Filled.Delete, "Delete Adoption")
+                    }
+
+                    if (showDeleteConfirmDialog) {
+                        showDeleteAlert(
+                            onDismiss = { showDeleteConfirmDialog = false },
+                            onDelete = onClickDelete
+                        )
+                    }
+                }
             }
         }
         IconButton(onClick = { expanded = !expanded }) {
@@ -117,7 +146,28 @@ fun AdoptionCardPreview() {
                 chipped = true,
                 location = "City Center",
                 dateListed = Date()
-            )
+            ),
+            onClickDelete = { },
+            onClickAdoptionDetails = { }
         )
     }
+}
+
+@Composable
+fun showDeleteAlert(
+    onDismiss: () -> Unit,
+    onDelete: () -> Unit) {
+    AlertDialog(
+        onDismissRequest = onDismiss ,
+        title = { Text(stringResource(id = R.string.confirm_delete)) },
+        text = { Text(stringResource(id = R.string.confirm_delete_message)) },
+        confirmButton = {
+            Button(
+                onClick = { onDelete() }
+            ) { Text("Yes") }
+        },
+        dismissButton = {
+            Button(onClick = onDismiss) { Text("No") }
+        }
+    )
 }
