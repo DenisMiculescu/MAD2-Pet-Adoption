@@ -13,11 +13,13 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.example.petadoptionapp.data.AdoptionModel
 import com.example.petadoptionapp.data.fakeAdoptions
 import com.example.petadoptionapp.ui.components.adopt.AdoptButton
@@ -37,7 +39,8 @@ import java.util.Date
 @Composable
 fun AdoptScreen(
     modifier: Modifier = Modifier,
-    listingViewModel: ListingViewModel = hiltViewModel()
+    listingViewModel: ListingViewModel = hiltViewModel(),
+    navController: NavController
 ) {
     val adoptions = listingViewModel.uiAdoptions.collectAsState().value
 
@@ -134,6 +137,7 @@ fun AdoptScreen(
                 ownerName = ownerName,
                 ownerContact = ownerContact
             ),
+            navController = navController
         )
     }
 }
@@ -204,6 +208,7 @@ fun PreviewAdoptScreen(modifier: Modifier = Modifier,
                 ownerName = "John Doe",
                 ownerContact = "1234567890"
             ),
+            navController = NavController(LocalContext.current)
         )
     }
 }
