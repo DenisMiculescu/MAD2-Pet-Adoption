@@ -16,7 +16,6 @@ fun BreedInput(
     modifier: Modifier = Modifier
 ) {
     Row(modifier = modifier) {
-        Text(text = "Breed:")
         TextField(
             value = breed,
             onValueChange = onBreedChange,

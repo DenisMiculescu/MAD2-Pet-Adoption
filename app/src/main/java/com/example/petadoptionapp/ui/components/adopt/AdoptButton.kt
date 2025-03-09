@@ -12,8 +12,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.snapshots.SnapshotStateList
-import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -105,10 +103,11 @@ fun AdoptButtonPreview() {
                 petType = "Dog",
                 petBreed = "Golden Retriever",
                 ageYear = 2,
-                ageMonth = 5,
-                chipped = true,
+                chipped = "Yes",
                 location = "Dublin",
                 dateListed = Date(),
+                ownerName = "John Doe",
+                ownerContact = "1234567890"
             ),
         )
     }

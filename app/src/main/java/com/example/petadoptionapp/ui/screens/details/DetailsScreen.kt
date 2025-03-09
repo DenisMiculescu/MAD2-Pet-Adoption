@@ -79,9 +79,6 @@ fun DetailsScreen(
             //Age (Years) Field
             ReadOnlyTextField(value = adoption.ageYear.toString(),
                 label = "Age (Years)")
-            // Age (Month) Field
-            ReadOnlyTextField(value = adoption.ageMonth.toString(),
-                label = "Age (Month)")
             // Date Listed Field
             ReadOnlyTextField(value = adoption.dateListed.toString(),
                 label = "Date Listed")
