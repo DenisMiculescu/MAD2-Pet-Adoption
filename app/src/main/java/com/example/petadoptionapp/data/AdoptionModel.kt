@@ -12,12 +12,12 @@ data class AdoptionModel(
     var petName: String,
     val petType: String,
     val petBreed: String,
-    val ageYear: Int,
+    var ageYear: Int,
     val chipped: String,
     val location: String,
     val dateListed: Date = Date(),
-    val ownerName: String,
-    val ownerContact: String,
+    var ownerName: String,
+    var ownerContact: String,
 )
 
 val fakeAdoptions = List(30) { i ->

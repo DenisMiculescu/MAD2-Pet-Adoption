@@ -50,7 +50,7 @@ fun NavHostProvider(
         { navBackStackEntry ->
             val id = navBackStackEntry.arguments?.getInt(Details.idArg)
             if (id != null) {
-                DetailsScreen()
+                DetailsScreen(navController = navController)
             }
         }
 
