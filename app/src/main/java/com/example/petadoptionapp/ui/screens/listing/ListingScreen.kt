@@ -2,11 +2,17 @@ package com.example.petadoptionapp.ui.screens.listing
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Modifier
@@ -31,6 +37,10 @@ fun ListingScreen(modifier: Modifier = Modifier,
                   listingViewModel: ListingViewModel = hiltViewModel()
 ) {
     val adoptions = listingViewModel.uiAdoptions.collectAsState().value
+    var filterText by rememberSaveable { mutableStateOf("") }
+    val filteredAdoptions = adoptions.filter {
+        it.petBreed.contains(filterText, ignoreCase = true)
+    }
 
     Column {
         Column(
@@ -51,8 +61,14 @@ fun ListingScreen(modifier: Modifier = Modifier,
                     )
                 }
             else
+                TextField(
+                    value = filterText,
+                    onValueChange = { value -> filterText = value },
+                    label = { Text("Search Breed") },
+                    modifier = Modifier.fillMaxWidth()
+                )
                 AdoptionCardList(
-                    adoptions = adoptions,
+                    adoptions = filteredAdoptions,
                     onClickAdoptionDetails = onClickAdoptionDetails,
                     onDeleteAdoption = {
                             adoption: AdoptionModel ->

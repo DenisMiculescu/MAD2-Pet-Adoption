@@ -10,16 +10,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun NameInput(
-    name: String,
-    onNameChange: (String) -> Unit,
+fun LocationInput(
+    location: String,
+    onLocationChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(modifier = modifier) {
         TextField(
-            value = name,
-            onValueChange = onNameChange,
-            label = { Text("Enter pet name") },
+            value = location,
+            onValueChange = onLocationChange,
+            label = { Text("Enter location") },
             modifier = Modifier.padding(start = 8.dp)
         )
     }
@@ -27,6 +27,6 @@ fun NameInput(
 
 @Preview
 @Composable
-fun NameInputPreview() {
-    NameInput(name = "", onNameChange = {})
+fun LocationInputPreview() {
+    LocationInput(location = "", onLocationChange = {})
 }

@@ -28,7 +28,7 @@ fun NavHostProvider(
 
         composable(route = Adopt.route) {
             //call our 'Adopt' Screen Here
-            AdoptScreen(modifier = modifier)
+            AdoptScreen(modifier = modifier, navController = navController)
         }
         composable(route = Listing.route) {
             //call our 'Listing' Screen Here
@@ -50,7 +50,7 @@ fun NavHostProvider(
         { navBackStackEntry ->
             val id = navBackStackEntry.arguments?.getInt(Details.idArg)
             if (id != null) {
-                DetailsScreen()
+                DetailsScreen(navController = navController)
             }
         }
 

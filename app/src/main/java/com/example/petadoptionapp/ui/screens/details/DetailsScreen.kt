@@ -33,6 +33,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.example.petadoptionapp.ui.components.details.DetailsScreenText
 import com.example.petadoptionapp.ui.components.details.ReadOnlyTextField
 
@@ -40,13 +41,17 @@ import com.example.petadoptionapp.ui.components.details.ReadOnlyTextField
 @Composable
 fun DetailsScreen(
     modifier: Modifier = Modifier,
-    detailViewModel: DetailsViewModel = hiltViewModel()
-) {
+    detailViewModel: DetailsViewModel = hiltViewModel(),
+    navController: NavController,
+    ) {
     var adoption = detailViewModel.adoption.value
 
     val errorEmptyMessage = "Message Cannot be Empty..."
     val errorShortMessage = "Message must be at least 2 characters"
-    var text by rememberSaveable { mutableStateOf("") }
+    var textPetName by rememberSaveable { mutableStateOf("") }
+    var textAgeYear by rememberSaveable { mutableStateOf("") }
+    var textOwnerName by rememberSaveable { mutableStateOf("") }
+    var textOwnerContact by rememberSaveable { mutableStateOf("") }
     var onMessageChanged by rememberSaveable { mutableStateOf(false) }
     var isEmptyError by rememberSaveable { mutableStateOf(false) }
     var isShortError by rememberSaveable { mutableStateOf(false) }
@@ -72,30 +77,17 @@ fun DetailsScreen(
             ),
         )
         {
-
-            //Pet Breed Field
-            ReadOnlyTextField(value = adoption.petBreed,
-                label = "Pet Breed")
-            //Age (Years) Field
-            ReadOnlyTextField(value = adoption.ageYear.toString(),
-                label = "Age (Years)")
-            // Age (Month) Field
-            ReadOnlyTextField(value = adoption.ageMonth.toString(),
-                label = "Age (Month)")
-            // Date Listed Field
-            ReadOnlyTextField(value = adoption.dateListed.toString(),
-                label = "Date Listed")
             //Pet Name Field
-            text = adoption.petName
+            textPetName = adoption.petName
             OutlinedTextField(modifier = Modifier.fillMaxWidth(),
-                value = text,
+                value = textPetName,
                 onValueChange = {
-                    text = it
-                    validate(text)
-                    adoption.petName = text
+                    textPetName = it
+                    validate(textPetName)
+                    adoption.petName = textPetName
                 },
                 maxLines = 2,
-                label = { Text(text = "Message") },
+                label = { Text(text = "Pet Name") },
                 isError = isEmptyError || isShortError,
                 supportingText = {
                     if (isEmptyError) {
@@ -123,16 +115,161 @@ fun DetailsScreen(
                             tint = Color.Black
                         )
                 },
-                keyboardActions = KeyboardActions { validate(text) },
+                keyboardActions = KeyboardActions { validate(textPetName) },
                 colors = OutlinedTextFieldDefaults.colors(
                     unfocusedBorderColor = MaterialTheme.colorScheme.secondary,
                 )
             )
 
+            //Pet Breed Field
+            ReadOnlyTextField(value = adoption.petBreed,
+                label = "Pet Breed")
+
+            //Pet Name Field
+            textAgeYear = adoption.ageYear.toString()
+            OutlinedTextField(modifier = Modifier.fillMaxWidth(),
+                value = textAgeYear,
+                onValueChange = {
+                    textAgeYear = it
+                    validate(textAgeYear)
+                    adoption.ageYear = textAgeYear.toInt()
+                },
+                maxLines = 2,
+                label = { Text(text = "Pet Age") },
+                isError = isEmptyError || isShortError,
+                supportingText = {
+                    if (isEmptyError) {
+                        Text(
+                            modifier = Modifier.fillMaxWidth(),
+                            text = errorEmptyMessage,
+                            color = MaterialTheme.colorScheme.error
+                        )
+                    }
+                    else
+                        if (isShortError) {
+                            Text(
+                                modifier = Modifier.fillMaxWidth(),
+                                text = errorShortMessage,
+                                color = MaterialTheme.colorScheme.error
+                            )
+                        }
+                },
+                trailingIcon = {
+                    if (isEmptyError || isShortError)
+                        Icon(Icons.Filled.Warning,"error", tint = MaterialTheme.colorScheme.error)
+                    else
+                        Icon(
+                            Icons.Default.Edit, contentDescription = "add/edit",
+                            tint = Color.Black
+                        )
+                },
+                keyboardActions = KeyboardActions { validate(textAgeYear) },
+                colors = OutlinedTextFieldDefaults.colors(
+                    unfocusedBorderColor = MaterialTheme.colorScheme.secondary,
+                )
+            )
+
+            //Owner Name Field
+            textOwnerName = adoption.ownerName
+            OutlinedTextField(modifier = Modifier.fillMaxWidth(),
+                value = textOwnerName,
+                onValueChange = {
+                    textOwnerName = it
+                    validate(textOwnerName)
+                    adoption.ownerName = textOwnerName
+                },
+                maxLines = 2,
+                label = { Text(text = "Owner Name") },
+                isError = isEmptyError || isShortError,
+                supportingText = {
+                    if (isEmptyError) {
+                        Text(
+                            modifier = Modifier.fillMaxWidth(),
+                            text = errorEmptyMessage,
+                            color = MaterialTheme.colorScheme.error
+                        )
+                    }
+                    else
+                        if (isShortError) {
+                            Text(
+                                modifier = Modifier.fillMaxWidth(),
+                                text = errorShortMessage,
+                                color = MaterialTheme.colorScheme.error
+                            )
+                        }
+                },
+                trailingIcon = {
+                    if (isEmptyError || isShortError)
+                        Icon(Icons.Filled.Warning,"error", tint = MaterialTheme.colorScheme.error)
+                    else
+                        Icon(
+                            Icons.Default.Edit, contentDescription = "add/edit",
+                            tint = Color.Black
+                        )
+                },
+                keyboardActions = KeyboardActions { validate(textOwnerName) },
+                colors = OutlinedTextFieldDefaults.colors(
+                    unfocusedBorderColor = MaterialTheme.colorScheme.secondary,
+                )
+            )
+
+            //Owner Contact Field
+            textOwnerContact = adoption.ownerContact
+            OutlinedTextField(modifier = Modifier.fillMaxWidth(),
+                value = textOwnerContact,
+                onValueChange = {
+                    textOwnerContact = it
+                    validate(textOwnerContact)
+                    adoption.ownerContact = textOwnerContact
+                },
+                maxLines = 2,
+                label = { Text(text = "Owner Contact Number") },
+                isError = isEmptyError || isShortError,
+                supportingText = {
+                    if (isEmptyError) {
+                        Text(
+                            modifier = Modifier.fillMaxWidth(),
+                            text = errorEmptyMessage,
+                            color = MaterialTheme.colorScheme.error
+                        )
+                    }
+                    else
+                        if (isShortError) {
+                            Text(
+                                modifier = Modifier.fillMaxWidth(),
+                                text = errorShortMessage,
+                                color = MaterialTheme.colorScheme.error
+                            )
+                        }
+                },
+                trailingIcon = {
+                    if (isEmptyError || isShortError)
+                        Icon(Icons.Filled.Warning,"error", tint = MaterialTheme.colorScheme.error)
+                    else
+                        Icon(
+                            Icons.Default.Edit, contentDescription = "add/edit",
+                            tint = Color.Black
+                        )
+                },
+                keyboardActions = KeyboardActions { validate(textOwnerContact) },
+                colors = OutlinedTextFieldDefaults.colors(
+                    unfocusedBorderColor = MaterialTheme.colorScheme.secondary,
+                )
+            )
+
+            // Location Field
+            ReadOnlyTextField(value = adoption.location,
+                label = "Location")
+            // Date Listed Field
+            ReadOnlyTextField(value = adoption.dateListed.toString(),
+                label = "Date Listed")
+
+
             Spacer(modifier.height(height = 48.dp))
             Button(
                 onClick = {
                     detailViewModel.updateAdoption(adoption)
+                    navController.navigate("listing")
                     onMessageChanged = false},
                 elevation = ButtonDefaults.buttonElevation(20.dp),
                 enabled = onMessageChanged,

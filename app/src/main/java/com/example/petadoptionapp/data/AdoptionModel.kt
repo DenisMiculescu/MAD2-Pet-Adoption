@@ -12,11 +12,12 @@ data class AdoptionModel(
     var petName: String,
     val petType: String,
     val petBreed: String,
-    val ageYear: Int,
-    val ageMonth: Int,
-    val chipped: Boolean = false,
+    var ageYear: Int,
+    val chipped: String,
     val location: String,
     val dateListed: Date = Date(),
+    var ownerName: String,
+    var ownerContact: String,
 )
 
 val fakeAdoptions = List(30) { i ->
@@ -26,9 +27,10 @@ val fakeAdoptions = List(30) { i ->
         petType = if (i % 2 == 0) "Dog" else "Cat",
         petBreed = if (i % 2 == 0) "German Shepard" else "Tabby",
         ageYear = Random.nextInt(0, 15),
-        ageMonth = Random.nextInt(0, 11),
-        chipped = i % 3 == 0,
+        chipped = if (i % 2 == 0) "Yes" else "No",
         location = "City $i",
-        dateListed = Date()
+        dateListed = Date(),
+        ownerName = "Owner $i",
+        ownerContact = "1234567890"
     )
 }

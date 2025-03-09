@@ -31,8 +31,13 @@ fun AdoptionCard(
 ) {
     Card(
         colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surface,
+            contentColor = MaterialTheme.colorScheme.onSurface
         ),
-        modifier = Modifier.padding(vertical = 4.dp, horizontal = 2.dp)
+        modifier = Modifier
+            .padding(vertical = 8.dp, horizontal = 16.dp)
+            .fillMaxWidth(),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         AdoptionCardContent(adoption, onClickDelete, onClickAdoptionDetails)
     }
@@ -47,10 +52,9 @@ private fun AdoptionCardContent(
     var expanded by remember { mutableStateOf(false) }
     var showDeleteConfirmDialog by remember { mutableStateOf(false) }
 
-
-    Row(
+    Column(
         modifier = Modifier
-            .padding(12.dp)
+            .padding(16.dp)
             .animateContentSize(
                 animationSpec = spring(
                     dampingRatio = Spring.DampingRatioMediumBouncy,
@@ -58,76 +62,87 @@ private fun AdoptionCardContent(
                 )
             )
     ) {
-        Column(
-            modifier = Modifier
-                .weight(1f)
-                .padding(4.dp)
-        ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(
-                    imageVector = Icons.Default.Pets,
-                    contentDescription = "Pet Icon",
-                    Modifier.padding(end = 8.dp)
-                )
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(
+                imageVector = Icons.Default.Pets,
+                contentDescription = "Pet Icon",
+                modifier = Modifier
+                    .padding(end = 8.dp)
+                    .size(40.dp)
+            )
+            Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = adoption.petName,
                     style = MaterialTheme.typography.headlineMedium.copy(
-                        fontWeight = FontWeight.ExtraBold
+                        fontWeight = FontWeight.Bold
                     )
                 )
-                Spacer(Modifier.weight(1f))
                 Text(
-                    text = "${adoption.ageYear} years, ${adoption.ageMonth} months",
-                    style = MaterialTheme.typography.headlineMedium.copy(
-                        fontWeight = FontWeight.ExtraBold
-                    )
+                    text = if (adoption.petType == "Dog") "Dog" else "Cat",
+                    style = MaterialTheme.typography.bodyMedium
+                )
+                Text(
+                    text = "Breed: ${adoption.petBreed}",
+                    style = MaterialTheme.typography.bodyMedium
+                )
+                Text(
+                    text = "${adoption.ageYear} years",
+                    style = MaterialTheme.typography.bodyMedium
                 )
             }
-            Text(
-                text = "Breed: ${adoption.petBreed}", style = MaterialTheme.typography.labelSmall
-            )
-            Text(
-                text = "Location: ${adoption.location}", style = MaterialTheme.typography.labelSmall
-            )
-            Text(
-                text = "Chipped: ${if (adoption.chipped) "Yes" else "No"}", style = MaterialTheme.typography.labelSmall
-            )
-            Text(
-                text = "Listed on: ${DateFormat.getDateInstance().format(adoption.dateListed)}", style = MaterialTheme.typography.labelSmall
-            )
-            if (expanded) {
-                Text(modifier = Modifier.padding(vertical = 16.dp), text = "Additional Content Here!")
-                Row(modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween) {
-
-                    FilledTonalButton (onClick = onClickAdoptionDetails) {
-                        Text(text = "Show More")
+            IconButton(onClick = { expanded = !expanded }) {
+                Icon(
+                    imageVector = if (expanded) Icons.Filled.ExpandLess else Icons.Filled.ExpandMore,
+                    contentDescription = if (expanded) {
+                        stringResource(R.string.show_less)
+                    } else {
+                        stringResource(R.string.show_more)
                     }
-
-                    FilledTonalIconButton(onClick = {
-                        showDeleteConfirmDialog = true
-                    }) {
-                        Icon(Icons.Filled.Delete, "Delete Adoption")
-                    }
-
-                    if (showDeleteConfirmDialog) {
-                        showDeleteAlert(
-                            onDismiss = { showDeleteConfirmDialog = false },
-                            onDelete = onClickDelete
-                        )
-                    }
-                }
+                )
             }
         }
-        IconButton(onClick = { expanded = !expanded }) {
-            Icon(
-                imageVector = if (expanded) Icons.Filled.ExpandLess else Icons.Filled.ExpandMore,
-                contentDescription = if (expanded) {
-                    stringResource(R.string.show_less)
-                } else {
-                    stringResource(R.string.show_more)
-                }
+        if (expanded) {
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = "Chipped: ${adoption.chipped}",
+                style = MaterialTheme.typography.bodyMedium
             )
+            Text(
+                text = "Owner Name: ${adoption.ownerName}",
+                style = MaterialTheme.typography.bodyMedium
+            )
+            Text(
+                text = "Contact: ${adoption.ownerContact}",
+                style = MaterialTheme.typography.bodyMedium
+            )
+            Text(
+                text = "Location: ${adoption.location}",
+                style = MaterialTheme.typography.bodyMedium
+            )
+            Text(
+                text = "Listed on: ${DateFormat.getDateInstance().format(adoption.dateListed)}",
+                style = MaterialTheme.typography.bodyMedium
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                FilledTonalButton(onClick = onClickAdoptionDetails) {
+                    Text(text = "Show More")
+                }
+                FilledTonalIconButton(onClick = {
+                    showDeleteConfirmDialog = true
+                }) {
+                    Icon(Icons.Filled.Delete, "Delete Adoption")
+                }
+            }
+            if (showDeleteConfirmDialog) {
+                ShowDeleteAlert(
+                    onDismiss = { showDeleteConfirmDialog = false },
+                    onDelete = onClickDelete
+                )
+            }
         }
     }
 }
@@ -142,10 +157,11 @@ fun AdoptionCardPreview() {
                 petType = "Dog",
                 petBreed = "Golden Retriever",
                 ageYear = 3,
-                ageMonth = 6,
-                chipped = true,
-                location = "City Center",
-                dateListed = Date()
+                chipped = "yes",
+                location = "",
+                dateListed = Date(),
+                ownerName = "John Doe",
+                ownerContact = "1234567890"
             ),
             onClickDelete = { },
             onClickAdoptionDetails = { }
@@ -154,7 +170,7 @@ fun AdoptionCardPreview() {
 }
 
 @Composable
-fun showDeleteAlert(
+fun ShowDeleteAlert(
     onDismiss: () -> Unit,
     onDelete: () -> Unit) {
     AlertDialog(

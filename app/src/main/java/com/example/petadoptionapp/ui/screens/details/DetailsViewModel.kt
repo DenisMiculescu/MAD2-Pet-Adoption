@@ -22,10 +22,11 @@ constructor(private val repository: RoomRepository,
             petType = "",
             petBreed = "",
             ageYear = 0,
-            ageMonth = 0,
-            chipped = false,
+            chipped = "",
             location = "",
-            dateListed = Date()
+            dateListed = Date(),
+            ownerName = "",
+            ownerContact = ""
         )
     )
 
