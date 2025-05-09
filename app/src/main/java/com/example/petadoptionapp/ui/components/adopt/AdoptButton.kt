@@ -1,5 +1,6 @@
 package com.example.petadoptionapp.ui.components.adopt
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -33,6 +34,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.petadoptionapp.R
 import com.example.petadoptionapp.data.AdoptionModel
+import com.example.petadoptionapp.ui.components.general.ShowLoader
 import com.example.petadoptionapp.ui.screens.adopt.AdoptViewModel
 import com.example.petadoptionapp.ui.screens.listing.ListingViewModel
 import com.example.petadoptionapp.ui.theme.PetAdoptionAppTheme
@@ -51,6 +53,13 @@ fun AdoptButton(
     val adoptions = listingViewModel.uiAdoptions.collectAsState().value
     val context = LocalContext.current
     var showError by remember { mutableStateOf(false) }
+
+    val isError = adoptViewModel.isErr.value
+    val error = adoptViewModel.error.value
+    val isLoading = adoptViewModel.isLoading.value
+
+    if(isLoading) ShowLoader("Trying to add Adoption...")
+
 
     Column(modifier = modifier) {
         Row {
@@ -111,27 +120,10 @@ fun AdoptButton(
                 modifier = Modifier.padding(top = 8.dp)
             )
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun AdoptButtonPreview() {
-    PetAdoptionAppTheme {
-        AdoptButton(
-            Modifier,
-            AdoptionModel(
-                petName = "Buddy",
-                petType = "Dog",
-                petBreed = "Golden Retriever",
-                ageYear = 2,
-                chipped = "Yes",
-                location = "Dublin",
-                dateListed = Date(),
-                ownerName = "John Doe",
-                ownerContact = "1234567890"
-            ),
-            navController = NavController(LocalContext.current)
-        )
+        if(isError)
+            Toast.makeText(context,"Unable to add Adoption at this Time...",
+                Toast.LENGTH_SHORT).show()
+        else
+            listingViewModel.getAdoptions()
     }
 }
