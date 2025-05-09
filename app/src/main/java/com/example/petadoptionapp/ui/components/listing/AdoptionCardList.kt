@@ -20,7 +20,7 @@ internal fun AdoptionCardList(
     LazyColumn(modifier = modifier) {
         items(
             items = adoptions,
-            key = { adoption -> adoption.id }
+            key = { adoption -> adoption._id }
         ) { adoption ->
             AdoptionCard(
                 adoption = adoption,

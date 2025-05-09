@@ -27,6 +27,9 @@ import com.example.petadoptionapp.R
 import com.example.petadoptionapp.data.AdoptionModel
 import com.example.petadoptionapp.data.fakeAdoptions
 import com.example.petadoptionapp.ui.components.general.Centre
+import com.example.petadoptionapp.ui.components.general.ShowError
+import com.example.petadoptionapp.ui.components.general.ShowLoader
+import com.example.petadoptionapp.ui.components.general.ShowRefreshList
 import com.example.petadoptionapp.ui.components.listing.AdoptionCardList
 import com.example.petadoptionapp.ui.components.listing.ListingText
 import com.example.petadoptionapp.ui.theme.PetAdoptionAppTheme
@@ -41,6 +44,10 @@ fun ListingScreen(modifier: Modifier = Modifier,
     val filteredAdoptions = adoptions.filter {
         it.petBreed.contains(filterText, ignoreCase = true)
     }
+    val isError = listingViewModel.isErr.value
+    val isLoading = listingViewModel.isLoading.value
+    val error = listingViewModel.error.value
+
 
     Column {
         Column(
@@ -49,8 +56,15 @@ fun ListingScreen(modifier: Modifier = Modifier,
                 end = 24.dp
             ),
         ) {
+            if(isLoading) ShowLoader("Loading Adoptions...")
+
             ListingText()
-            if(adoptions.isEmpty())
+
+            if(!isError)
+                ShowRefreshList(onClick = { listingViewModel.getAdoptions() })
+
+
+            if(adoptions.isEmpty() && !isError)
                 Centre(Modifier.fillMaxSize()) {
                     Text(color = MaterialTheme.colorScheme.secondary,
                         fontWeight = FontWeight.Bold,
@@ -60,7 +74,8 @@ fun ListingScreen(modifier: Modifier = Modifier,
                         text = stringResource(R.string.empty_list)
                     )
                 }
-            else
+
+            if (!isError) {
                 TextField(
                     value = filterText,
                     onValueChange = { value -> filterText = value },
@@ -70,58 +85,18 @@ fun ListingScreen(modifier: Modifier = Modifier,
                 AdoptionCardList(
                     adoptions = filteredAdoptions,
                     onClickAdoptionDetails = onClickAdoptionDetails,
-                    onDeleteAdoption = {
-                            adoption: AdoptionModel ->
-                                 listingViewModel.deleteAdoption(adoption)
+                    onDeleteAdoption = { adoption: AdoptionModel ->
+                        listingViewModel.deleteAdoption(adoption)
                     }
                 )
+            }
+
+            if (isError) {
+                ShowError(headline = error.message!! + " error...",
+                    subtitle = error.toString(),
+                    onClick = { listingViewModel.getAdoptions() })
+            }
+
         }
     }
 }
-
-@Preview(showBackground = true)
-@Composable
-fun ListingScreenPreview() {
-    PetAdoptionAppTheme {
-        PreviewListingScreen( modifier = Modifier,
-            adoptions = fakeAdoptions.toMutableStateList(),
-            onClickAdoptionDetails = {}
-        )
-    }
-}
-
-@Composable
-fun PreviewListingScreen(
-    modifier: Modifier = Modifier,
-    adoptions: SnapshotStateList<AdoptionModel>,
-    onClickAdoptionDetails: () -> Unit
-) {
-
-    Column {
-        Column(
-            modifier = modifier.padding(
-                start = 24.dp,
-                end = 24.dp
-            ),
-        ) {
-            ListingText()
-            if(adoptions.isEmpty())
-                Centre(Modifier.fillMaxSize()) {
-                    Text(color = MaterialTheme.colorScheme.secondary,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 30.sp,
-                        lineHeight = 34.sp,
-                        textAlign = TextAlign.Center,
-                        text = stringResource(R.string.empty_list)
-                    )
-                }
-            else
-                AdoptionCardList(
-                    adoptions = adoptions,
-                    onDeleteAdoption = {},
-                    onClickAdoptionDetails = {}
-                )
-        }
-    }
-}
-
