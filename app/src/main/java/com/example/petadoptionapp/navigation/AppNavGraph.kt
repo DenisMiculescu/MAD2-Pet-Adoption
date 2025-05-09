@@ -32,9 +32,10 @@ fun NavHostProvider(
         }
         composable(route = Listing.route) {
             //call our 'Listing' Screen Here
-            ListingScreen(modifier = modifier,
+            ListingScreen(
+                modifier = modifier,
                 onClickAdoptionDetails = {
-                        adoptionId : Int ->
+                        adoptionId : String ->
                     navController.navigateToAdoptionDetails(adoptionId)
                 },
             )
@@ -57,7 +58,7 @@ fun NavHostProvider(
     }
 }
 
-private fun NavHostController.navigateToAdoptionDetails(adoptionId: Int) {
+private fun NavHostController.navigateToAdoptionDetails(adoptionId: String) {
     this.navigate("details/$adoptionId")
 }
 

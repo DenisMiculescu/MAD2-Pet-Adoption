@@ -10,35 +10,25 @@ import kotlin.random.Random
 data class AdoptionModel(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
-
     val _id: String = "N/A",
-
     @SerializedName("petname")
-    var petName: String,
-
+    var petName: String = "Pet Name",
     @SerializedName("pettype")
-    val petType: String,
-
+    val petType: String = "Dog",
     @SerializedName("petbreed")
-    val petBreed: String,
-
+    val petBreed: String = "German Shepherd",
     @SerializedName("ageyear")
-    var ageYear: Int,
-
+    var ageYear: Int = 0,
     @SerializedName("chipped")
-    val chipped: String,
-
+    val chipped: String = "Yes",
     @SerializedName("location")
-    val location: String,
-
+    val location: String = "Location",
     @SerializedName("datelisted")
     val dateListed: Date = Date(),
-
     @SerializedName("ownername")
-    var ownerName: String,
-
+    var ownerName: String = "Owner Name",
     @SerializedName("ownercontact")
-    var ownerContact: String,
+    var ownerContact: String = "087 777 7777",
 )
 
 val fakeAdoptions = List(30) { i ->

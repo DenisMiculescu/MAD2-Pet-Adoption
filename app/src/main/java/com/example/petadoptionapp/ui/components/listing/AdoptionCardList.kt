@@ -11,7 +11,7 @@ internal fun AdoptionCardList(
     adoptions: List<AdoptionModel>,
     modifier: Modifier = Modifier,
     onDeleteAdoption: (AdoptionModel) -> Unit,
-    onClickAdoptionDetails: (Int) -> Unit,
+    onClickAdoptionDetails: (String) -> Unit,
     onRefreshList: () -> Unit,
 ) {
     LazyColumn(modifier = modifier) {
@@ -22,7 +22,7 @@ internal fun AdoptionCardList(
             AdoptionCard(
                 adoption = adoption,
                 onClickDelete = { onDeleteAdoption(adoption) },
-                onClickAdoptionDetails = { onClickAdoptionDetails(adoption.id) },
+                onClickAdoptionDetails = { onClickAdoptionDetails(adoption._id) },
                 onRefreshList = onRefreshList
             )
         }

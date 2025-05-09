@@ -31,9 +31,10 @@ import com.example.petadoptionapp.ui.components.listing.AdoptionCardList
 import com.example.petadoptionapp.ui.components.listing.ListingText
 
 @Composable
-fun ListingScreen(modifier: Modifier = Modifier,
-                  onClickAdoptionDetails: (Int) -> Unit,
-                  listingViewModel: ListingViewModel = hiltViewModel()
+fun ListingScreen(
+    modifier: Modifier = Modifier,
+    onClickAdoptionDetails: (String) -> Unit,
+    listingViewModel: ListingViewModel = hiltViewModel()
 ) {
     val adoptions = listingViewModel.uiAdoptions.collectAsState().value
     var filterText by rememberSaveable { mutableStateOf("") }
