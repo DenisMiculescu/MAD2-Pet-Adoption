@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.petadoptionapp.data.model.AdoptionModel
 import com.example.petadoptionapp.data.api.RetrofitRepository
+import com.example.petadoptionapp.firebase.services.AuthService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,11 +16,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ListingViewModel @Inject
-constructor(private val repository: RetrofitRepository) : ViewModel() {
-    private val _adoptions
-            = MutableStateFlow<List<AdoptionModel>>(emptyList())
-    val uiAdoptions: StateFlow<List<AdoptionModel>>
-            = _adoptions.asStateFlow()
+constructor(
+    private val repository: RetrofitRepository,
+    private val authService: AuthService
+) : ViewModel() {
+
+    private val _adoptions = MutableStateFlow<List<AdoptionModel>>(emptyList())
+    val uiAdoptions: StateFlow<List<AdoptionModel>> = _adoptions.asStateFlow()
     var isErr = mutableStateOf(false)
     var isLoading = mutableStateOf(false)
     var error = mutableStateOf(Exception())
@@ -30,7 +33,7 @@ constructor(private val repository: RetrofitRepository) : ViewModel() {
         viewModelScope.launch {
             try {
                 isLoading.value = true
-                _adoptions.value = repository.getAll()
+                _adoptions.value = repository.getAll(authService.email!!)
                 isErr.value = false
                 isLoading.value = false
             }
@@ -45,7 +48,7 @@ constructor(private val repository: RetrofitRepository) : ViewModel() {
 
     fun deleteAdoption(adoption: AdoptionModel) {
         viewModelScope.launch {
-            repository.delete(adoption)
+            repository.delete(authService.email!!, adoption)
         }
     }
 }

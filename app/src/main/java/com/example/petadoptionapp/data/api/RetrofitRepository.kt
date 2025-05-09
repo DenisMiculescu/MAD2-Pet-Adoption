@@ -3,47 +3,48 @@ package com.example.petadoptionapp.data.api
 import com.example.petadoptionapp.data.model.AdoptionModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import retrofit2.Response
 import javax.inject.Inject
 
 class RetrofitRepository @Inject
 constructor(private val serviceApi: AdoptionService)  {
 
-    suspend fun getAll(): List<AdoptionModel>
+    suspend fun getAll(email: String): List<AdoptionModel>
     {
         return withContext(Dispatchers.IO) {
-            val adoptions = serviceApi.getall()
+            val adoptions = serviceApi.getall(email)
             adoptions.body() ?: emptyList()
         }
     }
 
-    suspend fun get(id: String): List<AdoptionModel>
+    suspend fun get(email: String, id: String): AdoptionModel
     {
         return withContext(Dispatchers.IO) {
-            val adoption = serviceApi.get(id)
-            adoption.body() ?: emptyList()
+            val adoption = serviceApi.get(email,id)
+            adoption.body()!!
         }
     }
 
-    suspend fun insert(adoption: AdoptionModel) : AdoptionWrapper
+    suspend fun insert(email: String, adoption: AdoptionModel) : AdoptionWrapper
     {
         return withContext(Dispatchers.IO) {
-            val wrapper = serviceApi.post(adoption)
+            val wrapper = serviceApi.post(email, adoption)
             wrapper
         }
     }
 
-    suspend fun update(adoption: AdoptionModel) : AdoptionWrapper
+    suspend fun update(email: String, adoption: AdoptionModel) : AdoptionWrapper
     {
         return withContext(Dispatchers.IO) {
-            val wrapper = serviceApi.put(adoption._id,adoption)
+            val wrapper = serviceApi.put(email, adoption.id, adoption)
             wrapper
         }
     }
 
-    suspend fun delete(adoption: AdoptionModel) : AdoptionWrapper
+    suspend fun delete(email: String, adoption: AdoptionModel) : Response<Void>
     {
         return withContext(Dispatchers.IO) {
-            val wrapper = serviceApi.delete(adoption._id)
+            val wrapper = serviceApi.delete(email, adoption.id)
             wrapper
         }
     }

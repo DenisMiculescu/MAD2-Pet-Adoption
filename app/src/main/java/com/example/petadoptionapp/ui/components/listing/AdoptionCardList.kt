@@ -22,7 +22,7 @@ internal fun AdoptionCardList(
             AdoptionCard(
                 adoption = adoption,
                 onClickDelete = { onDeleteAdoption(adoption) },
-                onClickAdoptionDetails = { onClickAdoptionDetails(adoption._id) },
+                onClickAdoptionDetails = { onClickAdoptionDetails(adoption.id) },
                 onRefreshList = onRefreshList
             )
         }

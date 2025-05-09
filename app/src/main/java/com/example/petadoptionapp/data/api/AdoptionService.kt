@@ -10,20 +10,27 @@ import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface AdoptionService {
-    @GET(ServiceEndPoints.ADOPTIONS_ENDPOINT)
-    suspend fun getall(): Response<List<AdoptionModel>>
 
-    @GET(ServiceEndPoints.ADOPTIONS_ENDPOINT + "/{id}")
-    suspend fun get(@Path("id") id: String): Response<List<AdoptionModel>>
+    @GET(ServiceEndPoints.ADOPTIONS_ENDPOINT + "/{email}")
+    suspend fun getall(
+        @Path("email") email: String)
+            : Response<List<AdoptionModel>>
 
-    @DELETE(ServiceEndPoints.ADOPTIONS_ENDPOINT + "/{id}")
-    suspend fun delete(@Path("id") id: String): AdoptionWrapper
+    @GET(ServiceEndPoints.ADOPTIONS_ENDPOINT + "/{email}" + "/{id}")
+    suspend fun get(@Path("email") email: String,
+                    @Path("id") id: String): Response<AdoptionModel>
 
-    @POST(ServiceEndPoints.ADOPTIONS_ENDPOINT)
-    suspend fun post(@Body adoption: AdoptionModel): AdoptionWrapper
+    @DELETE(ServiceEndPoints.ADOPTIONS_ENDPOINT + "/{email}" + "/{id}")
+    suspend fun delete(@Path("email") email: String,
+                       @Path("id") id: String): Response<Void>
 
-    @PUT(ServiceEndPoints.ADOPTIONS_ENDPOINT + "/{id}")
-    suspend fun put(@Path("id") id: String,
+    @POST(ServiceEndPoints.ADOPTIONS_ENDPOINT + "/{email}")
+    suspend fun post(@Path("email") email: String,
+                     @Body adoption: AdoptionModel): AdoptionWrapper
+
+    @PUT(ServiceEndPoints.ADOPTIONS_ENDPOINT + "/{email}" + "/{id}")
+    suspend fun put(@Path("email") email: String,
+                    @Path("id") id: String,
                     @Body adoption: AdoptionModel
     ): AdoptionWrapper
 }

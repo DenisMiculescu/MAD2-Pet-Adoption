@@ -142,14 +142,17 @@ fun DetailsScreen(
                 label = "Pet Breed")
 
             //Pet Name Field
-            textAgeYear = adoption.ageYear.toString()
+            if (textAgeYear.isEmpty()) {
+                textAgeYear = adoption.ageYear.toString()
+            }
             OutlinedTextField(modifier = Modifier.fillMaxWidth(),
                 value = textAgeYear,
                 onValueChange = {
                     textAgeYear = it
                     validate(textAgeYear)
-                    adoption.ageYear = textAgeYear.toInt()
-                },
+                    textAgeYear.toIntOrNull()?.let {
+                        adoption.ageYear = it
+                    }},
                 maxLines = 2,
                 label = { Text(text = "Pet Age") },
                 isError = isEmptyError || isShortError,

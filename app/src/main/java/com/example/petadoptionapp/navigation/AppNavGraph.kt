@@ -17,6 +17,7 @@ import com.example.petadoptionapp.ui.screens.home.HomeScreen
 import com.example.petadoptionapp.ui.screens.login.LoginScreen
 import com.example.petadoptionapp.ui.screens.profile.ProfileScreen
 import com.example.petadoptionapp.ui.screens.register.RegisterScreen
+import timber.log.Timber
 
 @Composable
 fun NavHostProvider(
@@ -60,7 +61,7 @@ fun NavHostProvider(
             arguments = Details.arguments
         )
         { navBackStackEntry ->
-            val id = navBackStackEntry.arguments?.getInt(Details.idArg)
+            val id = navBackStackEntry.arguments?.getString(Details.idArg)
             if (id != null) {
                 DetailsScreen(navController = navController)
             }

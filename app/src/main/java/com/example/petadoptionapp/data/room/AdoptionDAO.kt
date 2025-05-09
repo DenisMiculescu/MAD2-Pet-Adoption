@@ -16,12 +16,12 @@ interface AdoptionDAO {
     suspend fun insert(adoption: AdoptionModel)
 
     @Query("UPDATE adoptionModel SET petName=:petName WHERE id = :id")
-    suspend fun update(id: Int, petName:String)
+    suspend fun update(id: String, petName:String)
 
     @Delete
     suspend fun delete(adoption: AdoptionModel)
 
     @Query("SELECT * FROM adoptionmodel WHERE id=:id")
-    fun get(id: Int): Flow<AdoptionModel>
+    fun get(id: String): Flow<AdoptionModel>
 
 }

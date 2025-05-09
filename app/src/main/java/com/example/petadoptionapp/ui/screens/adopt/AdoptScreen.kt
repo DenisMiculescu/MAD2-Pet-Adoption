@@ -21,7 +21,6 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.petadoptionapp.data.model.AdoptionModel
-import com.example.petadoptionapp.data.model.fakeAdoptions
 import com.example.petadoptionapp.ui.components.adopt.AdoptButton
 import com.example.petadoptionapp.ui.components.adopt.AgePickerYear
 import com.example.petadoptionapp.ui.components.adopt.BreedInput
@@ -141,75 +140,3 @@ fun AdoptScreen(
         )
     }
 }
-
-
-@Preview(showBackground = true)
-@Composable
-fun AdoptScreenPreview() {
-    PetAdoptionAppTheme {
-        PreviewAdoptScreen( modifier = Modifier,
-            adoptions = fakeAdoptions.toMutableStateList())
-    }
-}
-
-@Composable
-fun PreviewAdoptScreen(modifier: Modifier = Modifier,
-                       adoptions: SnapshotStateList<AdoptionModel>
-) {
-    var petName by remember { mutableStateOf("") }
-    var petBreed by remember { mutableStateOf("") }
-    var petType by remember { mutableStateOf("") }
-    var location by remember { mutableStateOf("") }
-    var chipped by remember { mutableStateOf("") }
-
-    var ageYear by remember { mutableIntStateOf(0) }
-
-    Column(
-        modifier = modifier.padding(
-            start = 24.dp,
-            end = 24.dp
-        ),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
-        WelcomeText()
-
-        Text(text = "Age", fontWeight = FontWeight.Bold, fontSize = 20.sp)
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            AgePickerYear(onYearChange = { ageYear = it })
-        }
-
-        Text(text = "Chipped", fontWeight = FontWeight.Bold, fontSize = 20.sp)
-        RadioButtonGroup(
-            modifier = modifier,
-            onPaymentTypeChange = { chipped = it }
-        )
-
-        Text(text = "Pet Name", fontWeight = FontWeight.Bold, fontSize = 20.sp)
-        NameInput(name = petName, onNameChange = { petName = it })
-
-        Text(text = "Pet Breed", fontWeight = FontWeight.Bold, fontSize = 20.sp)
-        BreedInput(breed = petBreed, onBreedChange = { petBreed = it })
-
-        Spacer(modifier = Modifier.weight(1f))
-
-        AdoptButton(
-            modifier = modifier,
-            adoption = AdoptionModel(
-                petName = petName,
-                petType = petType,
-                petBreed = petBreed,
-                ageYear = ageYear,
-                chipped = chipped,
-                location = "City Center",
-                dateListed = Date(),
-                ownerName = "John Doe",
-                ownerContact = "1234567890"
-            ),
-            navController = NavController(LocalContext.current)
-        )
-    }
-}
-

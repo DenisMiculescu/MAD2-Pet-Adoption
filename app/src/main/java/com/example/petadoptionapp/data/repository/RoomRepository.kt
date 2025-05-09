@@ -20,7 +20,7 @@ constructor(private val adoptionDAO: AdoptionDAO) {
     suspend fun delete(adoption: AdoptionModel)
     { adoptionDAO.delete(adoption) }
 
-    fun get(id: Int) = adoptionDAO.get(id)
+    fun get(id: String) = adoptionDAO.get(id)
 
 
 }
