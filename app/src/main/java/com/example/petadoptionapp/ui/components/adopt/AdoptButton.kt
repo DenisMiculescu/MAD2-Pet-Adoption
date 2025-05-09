@@ -27,19 +27,16 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.petadoptionapp.R
-import com.example.petadoptionapp.data.AdoptionModel
+import com.example.petadoptionapp.data.model.AdoptionModel
 import com.example.petadoptionapp.ui.components.general.ShowLoader
 import com.example.petadoptionapp.ui.screens.adopt.AdoptViewModel
 import com.example.petadoptionapp.ui.screens.listing.ListingViewModel
-import com.example.petadoptionapp.ui.theme.PetAdoptionAppTheme
 import timber.log.Timber
-import java.util.Date
 
 
 @Composable

@@ -8,28 +8,39 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.petadoptionapp.data.AdoptionModel
+import com.example.petadoptionapp.data.model.AdoptionModel
 import com.example.petadoptionapp.ui.screens.listing.ListingScreen
 import com.example.petadoptionapp.ui.screens.about.AboutScreen
 import com.example.petadoptionapp.ui.screens.adopt.AdoptScreen
 import com.example.petadoptionapp.ui.screens.details.DetailsScreen
+import com.example.petadoptionapp.ui.screens.home.HomeScreen
+import com.example.petadoptionapp.ui.screens.login.LoginScreen
+import com.example.petadoptionapp.ui.screens.profile.ProfileScreen
+import com.example.petadoptionapp.ui.screens.register.RegisterScreen
+import timber.log.Timber
 
 @Composable
 fun NavHostProvider(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     navController: NavHostController,
-    paddingValues: PaddingValues,
-    adoptions: SnapshotStateList<AdoptionModel>
+    startDestination: AppDestination,
+    paddingValues: PaddingValues
 ) {
     NavHost(
         navController = navController,
-        startDestination = Listing.route,
+        startDestination = startDestination.route,
         modifier = Modifier.padding(paddingValues = paddingValues)) {
 
         composable(route = Adopt.route) {
             //call our 'Adopt' Screen Here
             AdoptScreen(modifier = modifier, navController = navController)
         }
+
+        composable(route = Home.route) {
+            //call our 'Home' Screen Here
+            HomeScreen(modifier = modifier)
+        }
+
         composable(route = Listing.route) {
             //call our 'Listing' Screen Here
             ListingScreen(
@@ -44,15 +55,43 @@ fun NavHostProvider(
             //call our 'About' Screen Here
             AboutScreen(modifier = modifier)
         }
+
         composable(
             route = Details.route,
             arguments = Details.arguments
         )
         { navBackStackEntry ->
-            val id = navBackStackEntry.arguments?.getInt(Details.idArg)
+            val id = navBackStackEntry.arguments?.getString(Details.idArg)
             if (id != null) {
                 DetailsScreen(navController = navController)
             }
+        }
+
+        composable(route = Login.route) {
+            //call our 'Login' Screen Here
+            LoginScreen(
+                navController = navController,
+                onLogin = { navController.popBackStack() }
+            )
+        }
+
+        composable(route = Register.route) {
+            //call our 'Register' Screen Here
+            RegisterScreen(
+                navController = navController,
+                onRegister = { navController.popBackStack() }
+            )
+        }
+
+        composable(route = Profile.route) {
+            ProfileScreen(
+                onSignOut = {
+                    navController.popBackStack()
+                    navController.navigate(Login.route) {
+                        popUpTo(Home.route) { inclusive = true }
+                    }
+                },
+            )
         }
 
     }

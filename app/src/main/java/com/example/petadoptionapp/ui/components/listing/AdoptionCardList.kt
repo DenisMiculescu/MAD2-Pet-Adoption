@@ -4,7 +4,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.example.petadoptionapp.data.AdoptionModel
+import com.example.petadoptionapp.data.model.AdoptionModel
 
 @Composable
 internal fun AdoptionCardList(
@@ -22,7 +22,7 @@ internal fun AdoptionCardList(
             AdoptionCard(
                 adoption = adoption,
                 onClickDelete = { onDeleteAdoption(adoption) },
-                onClickAdoptionDetails = { onClickAdoptionDetails(adoption._id) },
+                onClickAdoptionDetails = { onClickAdoptionDetails(adoption.id) },
                 onRefreshList = onRefreshList
             )
         }

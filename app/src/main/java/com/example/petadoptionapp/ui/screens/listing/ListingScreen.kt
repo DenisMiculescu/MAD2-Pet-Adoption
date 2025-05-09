@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.petadoptionapp.R
-import com.example.petadoptionapp.data.AdoptionModel
+import com.example.petadoptionapp.data.model.AdoptionModel
 import com.example.petadoptionapp.ui.components.general.Centre
 import com.example.petadoptionapp.ui.components.general.ShowError
 import com.example.petadoptionapp.ui.components.general.ShowLoader

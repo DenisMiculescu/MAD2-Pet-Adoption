@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "183793374785",
+    "project_id": "adoptly-app1",
+    "storage_bucket": "adoptly-app1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:183793374785:android:713a88c81ba293a21cd8c0",
+        "android_client_info": {
+          "package_name": "com.example.petadoptionapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB3ZIR3TRTHxPJJQTMt8jLpop5_Scwzw5U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
