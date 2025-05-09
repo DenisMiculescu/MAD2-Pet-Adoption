@@ -1,5 +1,9 @@
 package com.example.petadoptionapp.ui.screens.profile
 
+import com.example.petadoptionapp.R
+import com.example.petadoptionapp.ui.components.general.HeadingTextComponent
+import com.example.petadoptionapp.ui.screens.login.LoginViewModel
+import com.example.petadoptionapp.ui.screens.register.RegisterViewModel
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -16,11 +20,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.petadoptionapp.R
-import com.example.petadoptionapp.ui.components.general.HeadingTextComponent
-import com.example.petadoptionapp.ui.screens.login.LoginViewModel
-import com.example.petadoptionapp.ui.screens.register.RegisterViewModel
-
 
 @Composable
 fun ProfileScreen(
@@ -39,7 +38,8 @@ fun ProfileScreen(
         Spacer(modifier = Modifier.height(10.dp))
         //   if(loginViewModel.currentUser?.photoUrl?.path.isNullOrEmpty())
         BasicContent(
-            displayName = profileViewModel.displayName
+            displayName = profileViewModel.displayName,
+            email = profileViewModel.email
         )
 //        else
 //            ProfileContent(
