@@ -128,6 +128,9 @@ private fun AdoptionCardContent(
                 text = "Listed on: ${DateFormat.getDateInstance().format(adoption.dateListed)}",
                 style = MaterialTheme.typography.bodyMedium
             )
+            Text(
+                text = "Modified ${adoption.dateModified}", style = MaterialTheme.typography.labelSmall
+            )
             Spacer(modifier = Modifier.height(16.dp))
             Row(
                 modifier = Modifier.fillMaxWidth(),

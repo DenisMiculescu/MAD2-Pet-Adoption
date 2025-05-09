@@ -25,10 +25,13 @@ data class AdoptionModel(
     val location: String = "Location",
     @SerializedName("datelisted")
     val dateListed: Date = Date(),
+    @SerializedName("datemodified")
+    val dateModified: Date = Date(),
     @SerializedName("ownername")
     var ownerName: String = "Owner Name",
     @SerializedName("ownercontact")
     var ownerContact: String = "087 777 7777",
+
 )
 
 val fakeAdoptions = List(30) { i ->
