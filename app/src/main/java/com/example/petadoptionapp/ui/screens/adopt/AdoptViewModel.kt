@@ -3,9 +3,8 @@ package com.example.petadoptionapp.ui.screens.adopt
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.petadoptionapp.data.AdoptionModel
+import com.example.petadoptionapp.data.model.AdoptionModel
 import com.example.petadoptionapp.data.api.RetrofitRepository
-import com.example.petadoptionapp.data.repository.RoomRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

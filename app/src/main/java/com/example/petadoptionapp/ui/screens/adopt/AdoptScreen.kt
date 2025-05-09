@@ -20,8 +20,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.petadoptionapp.data.AdoptionModel
-import com.example.petadoptionapp.data.fakeAdoptions
+import com.example.petadoptionapp.data.model.AdoptionModel
+import com.example.petadoptionapp.data.model.fakeAdoptions
 import com.example.petadoptionapp.ui.components.adopt.AdoptButton
 import com.example.petadoptionapp.ui.components.adopt.AgePickerYear
 import com.example.petadoptionapp.ui.components.adopt.BreedInput

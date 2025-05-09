@@ -1,6 +1,6 @@
 package com.example.petadoptionapp.data.repository
 
-import com.example.petadoptionapp.data.AdoptionModel
+import com.example.petadoptionapp.data.model.AdoptionModel
 import com.example.petadoptionapp.data.room.AdoptionDAO
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

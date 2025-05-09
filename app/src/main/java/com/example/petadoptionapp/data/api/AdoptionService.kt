@@ -1,6 +1,6 @@
 package com.example.petadoptionapp.data.api
 
-import com.example.petadoptionapp.data.AdoptionModel
+import com.example.petadoptionapp.data.model.AdoptionModel
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
