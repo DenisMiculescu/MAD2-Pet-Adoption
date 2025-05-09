@@ -46,7 +46,7 @@ constructor(private val repository: RetrofitRepository) : ViewModel() {
 
     fun deleteAdoption(adoption: AdoptionModel) {
         viewModelScope.launch {
-            //   repository.delete(adoption)
+            repository.delete(adoption)
         }
     }
 }

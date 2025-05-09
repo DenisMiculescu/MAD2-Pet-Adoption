@@ -14,26 +14,21 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshots.SnapshotStateList
-import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.petadoptionapp.R
 import com.example.petadoptionapp.data.AdoptionModel
-import com.example.petadoptionapp.data.fakeAdoptions
 import com.example.petadoptionapp.ui.components.general.Centre
 import com.example.petadoptionapp.ui.components.general.ShowError
 import com.example.petadoptionapp.ui.components.general.ShowLoader
 import com.example.petadoptionapp.ui.components.general.ShowRefreshList
 import com.example.petadoptionapp.ui.components.listing.AdoptionCardList
 import com.example.petadoptionapp.ui.components.listing.ListingText
-import com.example.petadoptionapp.ui.theme.PetAdoptionAppTheme
 
 @Composable
 fun ListingScreen(modifier: Modifier = Modifier,
@@ -91,7 +86,8 @@ fun ListingScreen(modifier: Modifier = Modifier,
                     onClickAdoptionDetails = onClickAdoptionDetails,
                     onDeleteAdoption = { adoption: AdoptionModel ->
                         listingViewModel.deleteAdoption(adoption)
-                    }
+                    },
+                    onRefreshList = { listingViewModel.getAdoptions() }
                 )
             }
 
