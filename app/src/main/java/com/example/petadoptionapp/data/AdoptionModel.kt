@@ -2,6 +2,7 @@ package com.example.petadoptionapp.data
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.google.gson.annotations.SerializedName
 import java.util.Date
 import kotlin.random.Random
 
@@ -9,14 +10,34 @@ import kotlin.random.Random
 data class AdoptionModel(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
+
+    val _id: String = "N/A",
+
+    @SerializedName("petname")
     var petName: String,
+
+    @SerializedName("pettype")
     val petType: String,
+
+    @SerializedName("petbreed")
     val petBreed: String,
+
+    @SerializedName("ageyear")
     var ageYear: Int,
+
+    @SerializedName("chipped")
     val chipped: String,
+
+    @SerializedName("location")
     val location: String,
+
+    @SerializedName("datelisted")
     val dateListed: Date = Date(),
+
+    @SerializedName("ownername")
     var ownerName: String,
+
+    @SerializedName("ownercontact")
     var ownerContact: String,
 )
 
