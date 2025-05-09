@@ -12,7 +12,6 @@ composeBom = "2025.02.00"
 materialIconsExtended = "1.7.8"
 navigationCompose = "2.8.7"
 numberPicker = "1.0.3"
-#If not prompted, manually update to this version 1.8.0-alpha01
 compose-plugin = "1.8.0-alpha01"
 timber = "5.0.1"
 
@@ -23,6 +22,11 @@ hiltNavigationCompose = "1.2.0"
 roomRuntime = "2.6.1"
 ksp = "2.0.20-1.0.25"
 uiTestAndroid = "1.7.8"
+
+#V4
+converterGson = "2.11.0"
+gson = "2.11.0"
+retrofit = "2.11.0"
 
 
 [libraries]
@@ -59,6 +63,12 @@ androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref =
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomRuntime" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
 androidx-ui-test-android = { group = "androidx.compose.ui", name = "ui-test-android", version.ref = "uiTestAndroid" }
+
+#Retrofit
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

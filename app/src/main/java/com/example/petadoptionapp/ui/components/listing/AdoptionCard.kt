@@ -15,11 +15,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.petadoptionapp.R
 import com.example.petadoptionapp.data.AdoptionModel
-import com.example.petadoptionapp.ui.theme.PetAdoptionAppTheme
 import java.text.DateFormat
 import java.util.*
 
@@ -27,7 +25,8 @@ import java.util.*
 fun AdoptionCard(
     adoption: AdoptionModel,
     onClickDelete: () -> Unit,
-    onClickAdoptionDetails: () -> Unit
+    onClickAdoptionDetails: () -> Unit,
+    onRefreshList: () -> Unit
 ) {
     Card(
         colors = CardDefaults.cardColors(
@@ -39,7 +38,12 @@ fun AdoptionCard(
             .fillMaxWidth(),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
-        AdoptionCardContent(adoption, onClickDelete, onClickAdoptionDetails)
+        AdoptionCardContent(
+            adoption,
+            onClickDelete,
+            onClickAdoptionDetails,
+            onRefreshList
+        )
     }
 }
 
@@ -47,7 +51,8 @@ fun AdoptionCard(
 private fun AdoptionCardContent(
     adoption: AdoptionModel,
     onClickDelete: () -> Unit,
-    onClickAdoptionDetails: () -> Unit
+    onClickAdoptionDetails: () -> Unit,
+    onRefreshList: () -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
     var showDeleteConfirmDialog by remember { mutableStateOf(false) }
@@ -123,6 +128,9 @@ private fun AdoptionCardContent(
                 text = "Listed on: ${DateFormat.getDateInstance().format(adoption.dateListed)}",
                 style = MaterialTheme.typography.bodyMedium
             )
+            Text(
+                text = "Modified ${adoption.dateModified}", style = MaterialTheme.typography.labelSmall
+            )
             Spacer(modifier = Modifier.height(16.dp))
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -140,46 +148,30 @@ private fun AdoptionCardContent(
             if (showDeleteConfirmDialog) {
                 ShowDeleteAlert(
                     onDismiss = { showDeleteConfirmDialog = false },
-                    onDelete = onClickDelete
+                    onDelete = onClickDelete,
+                    onRefresh = onRefreshList
                 )
             }
         }
     }
 }
 
-@Preview
-@Composable
-fun AdoptionCardPreview() {
-    PetAdoptionAppTheme {
-        AdoptionCard(
-            adoption = AdoptionModel(
-                petName = "Buddy",
-                petType = "Dog",
-                petBreed = "Golden Retriever",
-                ageYear = 3,
-                chipped = "yes",
-                location = "",
-                dateListed = Date(),
-                ownerName = "John Doe",
-                ownerContact = "1234567890"
-            ),
-            onClickDelete = { },
-            onClickAdoptionDetails = { }
-        )
-    }
-}
-
 @Composable
 fun ShowDeleteAlert(
     onDismiss: () -> Unit,
-    onDelete: () -> Unit) {
+    onDelete: () -> Unit,
+    onRefresh: () -> Unit
+) {
     AlertDialog(
         onDismissRequest = onDismiss ,
         title = { Text(stringResource(id = R.string.confirm_delete)) },
         text = { Text(stringResource(id = R.string.confirm_delete_message)) },
         confirmButton = {
             Button(
-                onClick = { onDelete() }
+                onClick = {
+                    onDelete()
+                    onRefresh()
+                }
             ) { Text("Yes") }
         },
         dismissButton = {

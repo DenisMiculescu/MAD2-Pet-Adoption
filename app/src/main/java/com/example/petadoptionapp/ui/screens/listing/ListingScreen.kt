@@ -8,38 +8,45 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshots.SnapshotStateList
-import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.petadoptionapp.R
 import com.example.petadoptionapp.data.AdoptionModel
-import com.example.petadoptionapp.data.fakeAdoptions
 import com.example.petadoptionapp.ui.components.general.Centre
+import com.example.petadoptionapp.ui.components.general.ShowError
+import com.example.petadoptionapp.ui.components.general.ShowLoader
+import com.example.petadoptionapp.ui.components.general.ShowRefreshList
 import com.example.petadoptionapp.ui.components.listing.AdoptionCardList
 import com.example.petadoptionapp.ui.components.listing.ListingText
-import com.example.petadoptionapp.ui.theme.PetAdoptionAppTheme
 
 @Composable
-fun ListingScreen(modifier: Modifier = Modifier,
-                  onClickAdoptionDetails: (Int) -> Unit,
-                  listingViewModel: ListingViewModel = hiltViewModel()
+fun ListingScreen(
+    modifier: Modifier = Modifier,
+    onClickAdoptionDetails: (String) -> Unit,
+    listingViewModel: ListingViewModel = hiltViewModel()
 ) {
     val adoptions = listingViewModel.uiAdoptions.collectAsState().value
     var filterText by rememberSaveable { mutableStateOf("") }
     val filteredAdoptions = adoptions.filter {
         it.petBreed.contains(filterText, ignoreCase = true)
+    }
+    val isError = listingViewModel.isErr.value
+    val isLoading = listingViewModel.isLoading.value
+    val error = listingViewModel.error.value
+
+    LaunchedEffect(Unit) {
+        listingViewModel.getAdoptions()
     }
 
     Column {
@@ -49,8 +56,15 @@ fun ListingScreen(modifier: Modifier = Modifier,
                 end = 24.dp
             ),
         ) {
+            if(isLoading) ShowLoader("Loading Adoptions...")
+
             ListingText()
-            if(adoptions.isEmpty())
+
+            if(!isError)
+                ShowRefreshList(onClick = { listingViewModel.getAdoptions() })
+
+
+            if(adoptions.isEmpty() && !isError)
                 Centre(Modifier.fillMaxSize()) {
                     Text(color = MaterialTheme.colorScheme.secondary,
                         fontWeight = FontWeight.Bold,
@@ -60,7 +74,8 @@ fun ListingScreen(modifier: Modifier = Modifier,
                         text = stringResource(R.string.empty_list)
                     )
                 }
-            else
+
+            if (!isError) {
                 TextField(
                     value = filterText,
                     onValueChange = { value -> filterText = value },
@@ -70,58 +85,19 @@ fun ListingScreen(modifier: Modifier = Modifier,
                 AdoptionCardList(
                     adoptions = filteredAdoptions,
                     onClickAdoptionDetails = onClickAdoptionDetails,
-                    onDeleteAdoption = {
-                            adoption: AdoptionModel ->
-                                 listingViewModel.deleteAdoption(adoption)
-                    }
+                    onDeleteAdoption = { adoption: AdoptionModel ->
+                        listingViewModel.deleteAdoption(adoption)
+                    },
+                    onRefreshList = { listingViewModel.getAdoptions() }
                 )
+            }
+
+            if (isError) {
+                ShowError(headline = error.message!! + " error...",
+                    subtitle = error.toString(),
+                    onClick = { listingViewModel.getAdoptions() })
+            }
+
         }
     }
 }
-
-@Preview(showBackground = true)
-@Composable
-fun ListingScreenPreview() {
-    PetAdoptionAppTheme {
-        PreviewListingScreen( modifier = Modifier,
-            adoptions = fakeAdoptions.toMutableStateList(),
-            onClickAdoptionDetails = {}
-        )
-    }
-}
-
-@Composable
-fun PreviewListingScreen(
-    modifier: Modifier = Modifier,
-    adoptions: SnapshotStateList<AdoptionModel>,
-    onClickAdoptionDetails: () -> Unit
-) {
-
-    Column {
-        Column(
-            modifier = modifier.padding(
-                start = 24.dp,
-                end = 24.dp
-            ),
-        ) {
-            ListingText()
-            if(adoptions.isEmpty())
-                Centre(Modifier.fillMaxSize()) {
-                    Text(color = MaterialTheme.colorScheme.secondary,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 30.sp,
-                        lineHeight = 34.sp,
-                        textAlign = TextAlign.Center,
-                        text = stringResource(R.string.empty_list)
-                    )
-                }
-            else
-                AdoptionCardList(
-                    adoptions = adoptions,
-                    onDeleteAdoption = {},
-                    onClickAdoptionDetails = {}
-                )
-        }
-    }
-}
-

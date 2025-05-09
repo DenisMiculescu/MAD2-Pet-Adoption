@@ -1,6 +1,7 @@
 package com.example.petadoptionapp.ui.screens.details
 
 import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -30,12 +31,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.petadoptionapp.ui.components.details.DetailsScreenText
 import com.example.petadoptionapp.ui.components.details.ReadOnlyTextField
+import com.example.petadoptionapp.ui.components.general.ShowLoader
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -56,11 +59,24 @@ fun DetailsScreen(
     var isEmptyError by rememberSaveable { mutableStateOf(false) }
     var isShortError by rememberSaveable { mutableStateOf(false) }
 
+    val context = LocalContext.current
+    val isError = detailViewModel.isErr.value
+    val error = detailViewModel.error.value
+    val isLoading = detailViewModel.isLoading.value
+
+    if(isLoading) ShowLoader("Retrieving Adoption Details...")
+
     fun validate(text: String) {
         isEmptyError = text.isEmpty()
         isShortError = text.length < 2
         onMessageChanged = !(isEmptyError || isShortError)
     }
+
+    if(isError)
+        Toast.makeText(context,"Unable to fetch Details at this Time...",
+            Toast.LENGTH_SHORT).show()
+    if(!isError && !isLoading)
+
 
     Column(modifier = modifier.padding(
         start = 24.dp,
