@@ -3,6 +3,7 @@ package com.example.petadoptionapp.data.model
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
+import com.google.firebase.firestore.DocumentId
 import com.google.gson.annotations.SerializedName
 import java.util.Date
 import java.util.UUID
@@ -14,8 +15,7 @@ data class AdoptionModel(
     var id: String = UUID.randomUUID().toString(),
 
     @Ignore
-    @SerializedName("_id")
-    var _id: String = UUID.randomUUID().toString(),
+    @DocumentId val _id: String = "N/A",
 
     @SerializedName("petname")
     var petName: String = "Pet Name",
