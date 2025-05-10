@@ -22,7 +22,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -31,13 +30,13 @@ import com.example.petadoptionapp.firebase.auth.Response
 import com.example.petadoptionapp.navigation.Home
 import com.example.petadoptionapp.navigation.Login
 import com.example.petadoptionapp.ui.components.general.ButtonComponent
+import com.example.petadoptionapp.ui.components.general.GoogleSignInButtonComponent
 import com.example.petadoptionapp.ui.components.general.HeadingLogoComponent
 import com.example.petadoptionapp.ui.components.general.HeadingTextComponent
 import com.example.petadoptionapp.ui.components.general.MyTextFieldComponent
 import com.example.petadoptionapp.ui.components.general.PasswordTextFieldComponent
 import com.example.petadoptionapp.ui.components.general.ShowLoader
 import com.example.petadoptionapp.ui.components.general.UnderLinedTextComponent
-
 
 @Composable
 fun LoginScreen(
@@ -62,6 +61,7 @@ fun LoginScreen(
                 modifier = Modifier
                     .fillMaxSize()
             ) {
+                // NormalTextComponent(value = stringResource(id = R.string.login))
                 HeadingTextComponent(value = stringResource(id = R.string.welcome))
                 Spacer(modifier = Modifier.height(20.dp))
                 HeadingLogoComponent()
@@ -94,10 +94,20 @@ fun LoginScreen(
                     onButtonClicked = {
                         loginViewModel.onEvent(LoginUIEvent.LoginButtonClicked)
                         onLogin()
+                        //navController.navigate(Report.route)
+                        //  { launchSingleTop = true }
                     },
                     isEnabled = loginViewModel.allValidationsPassed.value
+
                 )
                 isEnabled = loginViewModel.allValidationsPassed.value
+
+                // Google Button here
+                Spacer(modifier = Modifier.height(10.dp))
+                val context = LocalContext.current
+                GoogleSignInButtonComponent {
+                    loginViewModel.signInWithGoogleCredentials(context)
+                }
             }
         }
     }
@@ -109,19 +119,24 @@ fun LoginScreen(
                 Toast.makeText(context, it.e.message, Toast.LENGTH_LONG).show()
                 navController.popBackStack()
                 navController.navigate(Login.route)
+                //      ShowSnackBar(message = it.exception.message.toString())
             }
             is Response.Loading -> {
+                //CircularProgressIndicator()
                 ShowLoader(message = "Please Wait...")
             }
             is Response.Success -> {
                 LaunchedEffect(Unit) {
+                    //         navController.popBackStack()
                     navController.navigate(Home.route) {
                         popUpTo(Login.route) {
+                            //       navController.popBackStack()
                             inclusive = true
                         }
                     }
                 }
             }
+
         }
     }
 }

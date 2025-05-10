@@ -1,12 +1,10 @@
 package com.example.petadoptionapp.ui.components.general
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
@@ -30,6 +28,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -41,12 +40,70 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.withLink
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.petadoptionapp.R
+import com.example.petadoptionapp.data.rules.Constants.SIGN_IN_WITH_GOOGLE
 import com.example.petadoptionapp.ui.theme.endGradientColor
+import com.example.petadoptionapp.ui.theme.gEndGradientColor
+import com.example.petadoptionapp.ui.theme.gStartGradientColor
 import com.example.petadoptionapp.ui.theme.startGradientColor
+
+@Composable
+fun GoogleSignInButtonComponent(onButtonClicked: () -> Unit) {
+    Button(
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(48.dp),
+        onClick = {
+            onButtonClicked.invoke()
+        },
+        contentPadding = PaddingValues(),
+        colors = ButtonDefaults.buttonColors(Color.Transparent),
+        shape = RoundedCornerShape(50.dp),
+        //enabled = isEnabled
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .heightIn(48.dp)
+                .background(
+                    brush = Brush.horizontalGradient(
+                        colors = listOf(
+                            gStartGradientColor,
+                            gEndGradientColor,
+                        )
+                    ),
+                    shape = RoundedCornerShape(50.dp)
+                ),
+            contentAlignment = Alignment.Center
+        ) {
+            Row {
+                Column {
+
+                    Image(
+                        modifier = Modifier.padding(end = 40.dp),
+                        painter = painterResource(
+                            id = R.drawable.ic_google_logo
+                        ),
+                        contentDescription = null
+                    )
+                }
+                Text(
+                    text = SIGN_IN_WITH_GOOGLE,
+                    fontSize = 18.sp,
+                    color = Color.White,
+                    fontWeight = FontWeight.Bold,
+                    fontStyle = FontStyle.Italic,
+                    modifier = Modifier.padding(end = 40.dp)
+                )
+            }
+        }
+
+    }
+}
 
 
 @Composable
@@ -252,13 +309,17 @@ fun ClickableTextComponent(value: String, onTextSelected: (String) -> Unit) {
     val initialText = "By continuing you accept our "
     val privacyPolicyText = "Privacy Policy"
     val andText = " and "
-    val termsAndConditionsText = "Term of Use"
+    val termsAndConditionsText = "Terms of Use"
 
     val annotatedString = buildAnnotatedString {
         append(initialText)
         withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.primary)) {
             pushStringAnnotation(tag = privacyPolicyText, annotation = privacyPolicyText)
-            append(privacyPolicyText)
+
+            withLink(LinkAnnotation.Url(url = "https://setu.ie")) {
+                append(privacyPolicyText)
+            }
+
         }
         append(andText)
         withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.primary)) {
@@ -267,17 +328,8 @@ fun ClickableTextComponent(value: String, onTextSelected: (String) -> Unit) {
         }
     }
 
-    ClickableText(text = annotatedString, onClick = { offset ->
-
-        annotatedString.getStringAnnotations(offset, offset)
-            .firstOrNull()?.also { span ->
-                Log.d("ClickableTextComponent", "{${span.item}}")
-
-                if ((span.item == termsAndConditionsText) || (span.item == privacyPolicyText)) {
-                    onTextSelected(span.item)
-                }
-            }
-
+    Text(buildAnnotatedString {
+        append(annotatedString)
     })
 }
 
@@ -365,30 +417,30 @@ fun ClickableLoginTextComponent(tryingToLogin: Boolean = true, onTextSelected: (
         }
     }
 
-    ClickableText(
-        modifier = Modifier
-            .fillMaxWidth()
-            .heightIn(min = 40.dp),
-        style = TextStyle(
-            fontSize = 21.sp,
-            fontWeight = FontWeight.Normal,
-            fontStyle = FontStyle.Normal,
-            textAlign = TextAlign.Center
-        ),
-        text = annotatedString,
-        onClick = { offset ->
-
-            annotatedString.getStringAnnotations(offset, offset)
-                .firstOrNull()?.also { span ->
-                    Log.d("ClickableTextComponent", "{${span.item}}")
-
-                    if (span.item == loginText) {
-                        onTextSelected(span.item)
-                    }
-                }
-
-        },
-    )
+//    ClickableText(
+//        modifier = Modifier
+//            .fillMaxWidth()
+//            .heightIn(min = 40.dp),
+//        style = TextStyle(
+//            fontSize = 21.sp,
+//            fontWeight = FontWeight.Normal,
+//            fontStyle = FontStyle.Normal,
+//            textAlign = TextAlign.Center
+//        ),
+//        text = annotatedString,
+//        onClick = { offset ->
+//
+//            annotatedString.getStringAnnotations(offset, offset)
+//                .firstOrNull()?.also { span ->
+//                    Log.d("ClickableTextComponent", "{${span.item}}")
+//
+//                    if (span.item == loginText) {
+//                        onTextSelected(span.item)
+//                    }
+//                }
+//
+//        },
+//    )
 }
 
 @Composable

@@ -1,9 +1,12 @@
 package com.example.petadoptionapp.firebase.services
 
 import com.example.petadoptionapp.firebase.auth.Response
+import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseUser
 
 typealias FirebaseSignInResponse = Response<FirebaseUser>
+//typealias OneTapSignInResponse = Response<BeginSignInResult>
+typealias SignInWithGoogleResponse = Response<Boolean>
 
 interface AuthService {
     val currentUserId: String
@@ -17,6 +20,7 @@ interface AuthService {
             : FirebaseSignInResponse
     suspend fun signOut()
 
+    suspend fun firebaseSignInWithGoogle(googleCredential: AuthCredential): SignInWithGoogleResponse
+    suspend fun authenticateGoogleUser(googleIdToken: String): FirebaseSignInResponse
+
 }
-
-
