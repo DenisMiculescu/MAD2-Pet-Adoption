@@ -1,5 +1,6 @@
 package com.example.petadoptionapp.firebase.services
 
+import android.net.Uri
 import com.example.petadoptionapp.data.model.AdoptionModel
 import kotlinx.coroutines.flow.Flow
 
@@ -13,4 +14,6 @@ interface FirestoreService {
     suspend fun insert(email: String, adoption: Adoption)
     suspend fun update(email: String, adoption: Adoption)
     suspend fun delete(email: String, adoptionId: String)
+    suspend fun updatePhotoUris(email: String, uri: Uri)
+
 }

@@ -1,31 +1,44 @@
 package com.example.petadoptionapp.ui.components.listing
 
+import android.net.Uri
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.ExpandMore
-import androidx.compose.material.icons.filled.Pets
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.example.petadoptionapp.R
-import com.example.petadoptionapp.data.model.AdoptionModel
-import java.text.DateFormat
 
 @Composable
 fun AdoptionCard(
-    adoption: AdoptionModel,
+    petName: String,
+    petType: String,
+    petBreed: String,
+    ageYear: Int,
+    chipped: String,
+    location: String,
+    dateListed: String,
+    dateModified: String,
+    ownerName: String,
+    ownerContact: String,
+    photoUri: Uri,
     onClickDelete: () -> Unit,
     onClickAdoptionDetails: () -> Unit,
-    onRefreshList: () -> Unit
 ) {
     Card(
         colors = CardDefaults.cardColors(
@@ -38,20 +51,38 @@ fun AdoptionCard(
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         AdoptionCardContent(
-            adoption,
+            petName,
+            petType,
+            petBreed,
+            ageYear,
+            chipped,
+            location,
+            dateListed,
+            dateModified,
+            ownerName,
+            ownerContact,
+            photoUri,
             onClickDelete,
             onClickAdoptionDetails,
-            onRefreshList
         )
     }
 }
 
 @Composable
 private fun AdoptionCardContent(
-    adoption: AdoptionModel,
+    petName: String,
+    petType: String,
+    petBreed: String,
+    ageYear: Int,
+    chipped: String,
+    location: String,
+    dateListed: String,
+    dateModified: String,
+    ownerName: String,
+    ownerContact: String,
+    photoUri: Uri,
     onClickDelete: () -> Unit,
     onClickAdoptionDetails: () -> Unit,
-    onRefreshList: () -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
     var showDeleteConfirmDialog by remember { mutableStateOf(false) }
@@ -67,30 +98,35 @@ private fun AdoptionCardContent(
             )
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Icon(
-                imageVector = Icons.Default.Pets,
-                contentDescription = "Pet Icon",
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(photoUri)
+                    .crossfade(true)
+                    .build(),
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
                 modifier = Modifier
-                    .padding(end = 8.dp)
-                    .size(40.dp)
+                    .size(50.dp)
+                    .clip(CircleShape)
             )
+
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = adoption.petName,
+                    text = petName,
                     style = MaterialTheme.typography.headlineMedium.copy(
                         fontWeight = FontWeight.Bold
                     )
                 )
                 Text(
-                    text = if (adoption.petType == "Dog") "Dog" else "Cat",
+                    text = if (petType == "Dog") "Dog" else "Cat",
                     style = MaterialTheme.typography.bodyMedium
                 )
                 Text(
-                    text = "Breed: ${adoption.petBreed}",
+                    text = "Breed: $petBreed",
                     style = MaterialTheme.typography.bodyMedium
                 )
                 Text(
-                    text = "${adoption.ageYear} years",
+                    text = "$ageYear years",
                     style = MaterialTheme.typography.bodyMedium
                 )
             }
@@ -108,27 +144,26 @@ private fun AdoptionCardContent(
         if (expanded) {
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "Chipped: ${adoption.chipped}",
+                text = "Chipped: $chipped",
                 style = MaterialTheme.typography.bodyMedium
             )
             Text(
-                text = "Owner Name: ${adoption.ownerName}",
+                text = "Owner Name: $ownerName",
                 style = MaterialTheme.typography.bodyMedium
             )
             Text(
-                text = "Contact: ${adoption.ownerContact}",
+                text = "Contact: $ownerContact",
                 style = MaterialTheme.typography.bodyMedium
             )
             Text(
-                text = "Location: ${adoption.location}",
+                text = "Location: $location",
                 style = MaterialTheme.typography.bodyMedium
             )
             Text(
-                text = "Listed on: ${DateFormat.getDateInstance().format(adoption.dateListed)}",
-                style = MaterialTheme.typography.bodyMedium
+                text = "Date Listed: $dateListed", style = MaterialTheme.typography.bodyMedium
             )
             Text(
-                text = "Modified ${adoption.dateModified}", style = MaterialTheme.typography.labelSmall
+                text = "Modified $dateModified", style = MaterialTheme.typography.bodyMedium
             )
             Spacer(modifier = Modifier.height(16.dp))
             Row(
@@ -148,7 +183,6 @@ private fun AdoptionCardContent(
                 ShowDeleteAlert(
                     onDismiss = { showDeleteConfirmDialog = false },
                     onDelete = onClickDelete,
-                    onRefresh = onRefreshList
                 )
             }
         }
@@ -159,7 +193,6 @@ private fun AdoptionCardContent(
 fun ShowDeleteAlert(
     onDismiss: () -> Unit,
     onDelete: () -> Unit,
-    onRefresh: () -> Unit
 ) {
     AlertDialog(
         onDismissRequest = onDismiss ,
@@ -169,7 +202,6 @@ fun ShowDeleteAlert(
             Button(
                 onClick = {
                     onDelete()
-                    onRefresh()
                 }
             ) { Text("Yes") }
         },
