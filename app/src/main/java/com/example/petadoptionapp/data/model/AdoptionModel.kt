@@ -22,5 +22,6 @@ data class AdoptionModel(
     var dateModified: Date = Date(),
     var ownerName: String = "Owner Name",
     var ownerContact: String = "087 777 7777",
-    var email: String = "joe@bloggs.com"
+    var email: String = "joe@bloggs.com",
+    var imageUri: String = ""
 )

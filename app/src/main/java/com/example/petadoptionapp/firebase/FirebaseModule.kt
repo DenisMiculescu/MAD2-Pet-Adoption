@@ -9,12 +9,16 @@ import com.example.petadoptionapp.firebase.auth.AuthRepository
 import com.example.petadoptionapp.firebase.database.FirestoreRepository
 import com.example.petadoptionapp.firebase.services.AuthService
 import com.example.petadoptionapp.firebase.services.FirestoreService
+import com.example.petadoptionapp.firebase.services.StorageService
+import com.example.petadoptionapp.firebase.storage.StorageRepository
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.storage
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -51,9 +55,12 @@ object FirebaseModule {
 
     @Provides
     fun provideAuthRepository(
-        auth: FirebaseAuth
+        auth: FirebaseAuth,
+        storage: StorageService
     ): AuthService = AuthRepository(
-        firebaseAuth = auth)
+        firebaseAuth = auth,
+        storageService = storage)
+
 
     @Provides
     fun provideCredentialManager(
@@ -75,4 +82,14 @@ object FirebaseModule {
     ) = GetCredentialRequest.Builder()
         .addCredentialOption(googleIdOption)
         .build()
+
+    @Provides
+    fun provideFirebaseStorage() : FirebaseStorage = Firebase.storage
+
+    @Provides
+    fun provideStorageRepository(
+        firebaseStorage: FirebaseStorage
+    ) : StorageService = StorageRepository(
+        storage = firebaseStorage)
+
 }
