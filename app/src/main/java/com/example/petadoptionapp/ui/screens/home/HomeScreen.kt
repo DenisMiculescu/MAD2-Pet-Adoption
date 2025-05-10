@@ -4,6 +4,8 @@ import android.Manifest
 import android.annotation.SuppressLint
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -19,15 +21,18 @@ import com.example.petadoptionapp.navigation.bottomAppBarDestinations
 import com.example.petadoptionapp.navigation.userSignedOutDestinations
 import com.example.petadoptionapp.ui.components.general.BottomAppBarProvider
 import com.example.petadoptionapp.ui.components.general.TopAppBarProvider
+import com.example.petadoptionapp.ui.screens.map.MapViewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 
 @OptIn(ExperimentalPermissionsApi::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier,
-               homeViewModel: HomeViewModel = hiltViewModel(),
-               navController: NavHostController = rememberNavController(),
+fun HomeScreen(
+    modifier: Modifier = Modifier,
+    homeViewModel: HomeViewModel = hiltViewModel(),
+    navController: NavHostController = rememberNavController(),
+    mapViewModel: MapViewModel = hiltViewModel()
 ) {
     val currentNavBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = currentNavBackStackEntry?.destination
@@ -51,7 +56,15 @@ fun HomeScreen(modifier: Modifier = Modifier,
         userSignedOutDestinations
     else bottomAppBarDestinations
 
-    if (isActiveSession) startScreen = Listing
+    if (isActiveSession)
+        startScreen = Listing
+        LaunchedEffect(locationPermissions.allPermissionsGranted) {
+            locationPermissions.launchMultiplePermissionRequest()
+            if (locationPermissions.allPermissionsGranted) {
+                mapViewModel.setPermissions(true)
+                mapViewModel.getLocationUpdates()
+            }
+        }
 
     Scaffold(
         modifier = modifier,
@@ -69,7 +82,9 @@ fun HomeScreen(modifier: Modifier = Modifier,
                 navController = navController,
                 startDestination = startScreen,
                 paddingValues = paddingValues,
-                permissions = locationPermissions.allPermissionsGranted
+                permissions = mapViewModel
+                    .hasPermissions
+                    .collectAsState().value
             )
         },
         bottomBar = {

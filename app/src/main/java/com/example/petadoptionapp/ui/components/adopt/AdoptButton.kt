@@ -14,6 +14,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -36,6 +37,7 @@ import com.example.petadoptionapp.data.model.AdoptionModel
 import com.example.petadoptionapp.ui.components.general.ShowLoader
 import com.example.petadoptionapp.ui.screens.adopt.AdoptViewModel
 import com.example.petadoptionapp.ui.screens.listing.ListingViewModel
+import com.example.petadoptionapp.ui.screens.map.MapViewModel
 import timber.log.Timber
 
 
@@ -46,6 +48,7 @@ fun AdoptButton(
     navController: NavController,
     adoptViewModel: AdoptViewModel = hiltViewModel(),
     listingViewModel: ListingViewModel = hiltViewModel(),
+    mapViewModel: MapViewModel = hiltViewModel()
 ) {
     val adoptions = listingViewModel.uiAdoptions.collectAsState().value
     val context = LocalContext.current
@@ -54,14 +57,22 @@ fun AdoptButton(
     val isError = adoptViewModel.isErr.value
     val error = adoptViewModel.error.value
 
+    val locationLatLng = mapViewModel.currentLatLng.collectAsState().value
 
+    LaunchedEffect(mapViewModel.currentLatLng) {
+        mapViewModel.getLocationUpdates()
+    }
 
     Column(modifier = modifier) {
         Row {
             Button(
                 onClick = {
                     if (adoption.ownerContact.isNotEmpty() && adoption.ownerName.isNotEmpty()) {
-                        adoptViewModel.insert(adoption)
+                        val adoptionLatLng = adoption.copy (
+                            latitude = locationLatLng.latitude,
+                            longitude = locationLatLng.longitude
+                        )
+                        adoptViewModel.insert(adoptionLatLng)
                         Timber.i("Adoption info : $adoptions")
                         Timber.i("Adoption List info : ${adoptions.toList()}")
                         navController.navigate("listing")
@@ -116,7 +127,7 @@ fun AdoptButton(
             )
         }
         if(isError)
-            Toast.makeText(context,"Unable to add Adoption at this Time...",
+            Toast.makeText(context,"Unable to add an Adoption at this Time...",
                 Toast.LENGTH_SHORT).show()
         else
             listingViewModel.getAdoptions()

@@ -14,24 +14,30 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MapViewModel @Inject constructor(
-    private val locationService: LocationService
+    private val locationTracker: LocationService
 ) : ViewModel() {
 
     private val _currentLatLng = MutableStateFlow(LatLng(0.0, 0.0))
-    val currentLatLng: StateFlow<LatLng> = _currentLatLng
+    val currentLatLng: StateFlow<LatLng> get() = _currentLatLng
 
-    private val _adoptions = MutableStateFlow<List<AdoptionModel>>(emptyList())
-    val adoptions: StateFlow<List<AdoptionModel>> = _adoptions
+    private val _hasPermissions = MutableStateFlow(false)
+    val hasPermissions: StateFlow<Boolean> get() = _hasPermissions
 
-    fun setAdoptions(adoptionList: List<AdoptionModel>) {
-        _adoptions.value = adoptionList
+    fun setPermissions(permissions: Boolean) {
+        _hasPermissions.value = permissions
+    }
+
+    private fun setCurrentLatLng(latLng: LatLng) {
+        _currentLatLng.value = latLng
     }
 
     fun getLocationUpdates() {
         viewModelScope.launch(Dispatchers.IO) {
-            locationService.getLocationFlow().collect { location ->
-                location?.let {
-                    _currentLatLng.value = LatLng(it.latitude, it.longitude)
+            locationTracker.getLocationFlow().collect {
+                it?.let { location ->
+                    setCurrentLatLng(
+                        LatLng(location.latitude, location.longitude)
+                    )
                 }
             }
         }
