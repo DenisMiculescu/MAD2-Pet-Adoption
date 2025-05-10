@@ -1,5 +1,6 @@
 package com.example.petadoptionapp.ui.screens.home
 
+import android.Manifest
 import android.annotation.SuppressLint
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -18,8 +19,10 @@ import com.example.petadoptionapp.navigation.bottomAppBarDestinations
 import com.example.petadoptionapp.navigation.userSignedOutDestinations
 import com.example.petadoptionapp.ui.components.general.BottomAppBarProvider
 import com.example.petadoptionapp.ui.components.general.TopAppBarProvider
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.rememberMultiplePermissionsState
 
-
+@OptIn(ExperimentalPermissionsApi::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun HomeScreen(modifier: Modifier = Modifier,
@@ -36,6 +39,13 @@ fun HomeScreen(modifier: Modifier = Modifier,
     val isActiveSession = homeViewModel.isAuthenticated()
     val userEmail = if (isActiveSession) currentUser?.email else ""
     val userName = if (isActiveSession) currentUser?.displayName else ""
+
+    val locationPermissions = rememberMultiplePermissionsState(
+        permissions = listOf(
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_FINE_LOCATION
+        )
+    )
 
     val userDestinations = if (!isActiveSession)
         userSignedOutDestinations
@@ -58,7 +68,8 @@ fun HomeScreen(modifier: Modifier = Modifier,
                 modifier = modifier,
                 navController = navController,
                 startDestination = startScreen,
-                paddingValues = paddingValues
+                paddingValues = paddingValues,
+                permissions = locationPermissions.allPermissionsGranted
             )
         },
         bottomBar = {

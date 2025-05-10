@@ -3,28 +3,27 @@ package com.example.petadoptionapp.navigation
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.petadoptionapp.data.model.AdoptionModel
 import com.example.petadoptionapp.ui.screens.listing.ListingScreen
 import com.example.petadoptionapp.ui.screens.about.AboutScreen
 import com.example.petadoptionapp.ui.screens.adopt.AdoptScreen
 import com.example.petadoptionapp.ui.screens.details.DetailsScreen
 import com.example.petadoptionapp.ui.screens.home.HomeScreen
 import com.example.petadoptionapp.ui.screens.login.LoginScreen
+import com.example.petadoptionapp.ui.screens.map.MapScreen
 import com.example.petadoptionapp.ui.screens.profile.ProfileScreen
 import com.example.petadoptionapp.ui.screens.register.RegisterScreen
-import timber.log.Timber
 
 @Composable
 fun NavHostProvider(
     modifier: Modifier = Modifier,
     navController: NavHostController,
     startDestination: AppDestination,
-    paddingValues: PaddingValues
+    paddingValues: PaddingValues,
+    permissions: Boolean
 ) {
     NavHost(
         navController = navController,
@@ -92,6 +91,10 @@ fun NavHostProvider(
                     }
                 },
             )
+        }
+
+        composable(route = Map.route) {
+            MapScreen(permissions = permissions)
         }
 
     }
