@@ -4,7 +4,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.petadoptionapp.data.model.AdoptionModel
-import com.example.petadoptionapp.data.api.RetrofitRepository
+import com.example.petadoptionapp.firebase.database.FirestoreRepository
 import com.example.petadoptionapp.firebase.services.AuthService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ListingViewModel @Inject
 constructor(
-    private val repository: RetrofitRepository,
+    private val repository: FirestoreRepository,
     private val authService: AuthService
 ) : ViewModel() {
 
@@ -33,9 +33,12 @@ constructor(
         viewModelScope.launch {
             try {
                 isLoading.value = true
-                _adoptions.value = repository.getAll(authService.email!!)
-                isErr.value = false
-                isLoading.value = false
+                repository.getAll(authService.email!!).collect { items ->
+                    _adoptions.value = items
+                    isErr.value = false
+                    isLoading.value = false
+                }
+                Timber.i("DVM RVM = : ${_adoptions.value}")
             }
             catch(e:Exception) {
                 isErr.value = true
@@ -46,9 +49,9 @@ constructor(
         }
     }
 
-    fun deleteAdoption(adoption: AdoptionModel) {
-        viewModelScope.launch {
-            repository.delete(authService.email!!, adoption)
-        }
+
+    fun deleteAdoption(adoption: AdoptionModel)
+        = viewModelScope.launch {
+            repository.delete(authService.email!!,adoption._id)
     }
 }
