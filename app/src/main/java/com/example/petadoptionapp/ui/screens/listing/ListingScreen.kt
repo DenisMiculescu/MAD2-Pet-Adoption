@@ -45,10 +45,6 @@ fun ListingScreen(
     val isLoading = listingViewModel.isLoading.value
     val error = listingViewModel.error.value
 
-    LaunchedEffect(Unit) {
-        listingViewModel.getAdoptions()
-    }
-
     Column {
         Column(
             modifier = modifier.padding(
@@ -59,10 +55,6 @@ fun ListingScreen(
             if(isLoading) ShowLoader("Loading Adoptions...")
 
             ListingText()
-
-            if(!isError)
-                ShowRefreshList(onClick = { listingViewModel.getAdoptions() })
-
 
             if(adoptions.isEmpty() && !isError)
                 Centre(Modifier.fillMaxSize()) {

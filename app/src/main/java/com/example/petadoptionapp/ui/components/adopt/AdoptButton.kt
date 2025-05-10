@@ -53,9 +53,7 @@ fun AdoptButton(
 
     val isError = adoptViewModel.isErr.value
     val error = adoptViewModel.error.value
-    val isLoading = adoptViewModel.isLoading.value
 
-    if(isLoading) ShowLoader("Trying to add Adoption...")
 
 
     Column(modifier = modifier) {

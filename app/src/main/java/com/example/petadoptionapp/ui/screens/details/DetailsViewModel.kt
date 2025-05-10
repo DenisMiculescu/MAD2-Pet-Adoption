@@ -5,7 +5,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.petadoptionapp.data.model.AdoptionModel
-import com.example.petadoptionapp.data.api.RetrofitRepository
+import com.example.petadoptionapp.firebase.database.FirestoreRepository
 import com.example.petadoptionapp.firebase.services.AuthService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -14,7 +14,7 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailsViewModel @Inject
 constructor(
-    private val repository: RetrofitRepository,
+    private val repository: FirestoreRepository,
     private val authService: AuthService,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
@@ -29,7 +29,7 @@ constructor(
         viewModelScope.launch {
             try {
                 isLoading.value = true
-                adoption.value = repository.get(authService.email!!, id)
+                adoption.value = repository.get(authService.email!!,id)!!
                 isErr.value = false
                 isLoading.value = false
             } catch (e: Exception) {
