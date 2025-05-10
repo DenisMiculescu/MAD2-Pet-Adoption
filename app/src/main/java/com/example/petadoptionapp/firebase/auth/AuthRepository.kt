@@ -4,16 +4,21 @@ import android.net.Uri
 import com.example.petadoptionapp.firebase.services.AuthService
 import com.example.petadoptionapp.firebase.services.FirebaseSignInResponse
 import com.example.petadoptionapp.firebase.services.SignInWithGoogleResponse
+import com.example.petadoptionapp.firebase.services.StorageService
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.UserProfileChangeRequest
 import kotlinx.coroutines.tasks.await
+import timber.log.Timber
 import javax.inject.Inject
 
 class AuthRepository
-@Inject constructor(private val firebaseAuth: FirebaseAuth)
+@Inject constructor(
+    private val firebaseAuth: FirebaseAuth,
+    private val storageService: StorageService
+)
     : AuthService {
 
     override val currentUserId: String
@@ -49,7 +54,7 @@ class AuthRepository
             result.user?.updateProfile(UserProfileChangeRequest
                 .Builder()
                 .setDisplayName(name)
-                .setPhotoUri(uri)
+                .setPhotoUri(uploadCustomPhotoUri(uri))
                 .build())?.await()
             return Response.Success(result.user!!)
         } catch (e: Exception) {
@@ -62,7 +67,7 @@ class AuthRepository
         return try {
             currentUser!!.updateProfile(UserProfileChangeRequest
                 .Builder()
-                .setPhotoUri(uri)
+                .setPhotoUri(uploadCustomPhotoUri(uri))
                 .build()).await()
             return Response.Success(currentUser!!)
         } catch (e: Exception) {
@@ -70,6 +75,20 @@ class AuthRepository
             Response.Failure(e)
         }
     }
+
+    private suspend fun uploadCustomPhotoUri(uri: Uri) : Uri {
+        if (uri.toString().isNotEmpty()) {
+            val urlTask = storageService.uploadFile(uri = uri, "images")
+            val url = urlTask.addOnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    Timber.e("task not successful: ${task.exception}")
+                }
+            }.await()
+            return url
+        }
+        return Uri.EMPTY
+    }
+
 
     override suspend fun signOut() {
         firebaseAuth.signOut()

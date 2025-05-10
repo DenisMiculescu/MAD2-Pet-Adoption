@@ -55,9 +55,12 @@ object FirebaseModule {
 
     @Provides
     fun provideAuthRepository(
-        auth: FirebaseAuth
+        auth: FirebaseAuth,
+        storage: StorageService
     ): AuthService = AuthRepository(
-        firebaseAuth = auth)
+        firebaseAuth = auth,
+        storageService = storage)
+
 
     @Provides
     fun provideCredentialManager(
