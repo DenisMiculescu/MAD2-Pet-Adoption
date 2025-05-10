@@ -1,5 +1,6 @@
 package com.example.petadoptionapp.firebase.auth
 
+import android.net.Uri
 import com.example.petadoptionapp.firebase.services.AuthService
 import com.example.petadoptionapp.firebase.services.FirebaseSignInResponse
 import com.example.petadoptionapp.firebase.services.SignInWithGoogleResponse
@@ -27,6 +28,10 @@ class AuthRepository
     override val email: String?
         get() = firebaseAuth.currentUser?.email
 
+    override val customPhotoUri: Uri?
+        get() = firebaseAuth.currentUser!!.photoUrl
+
+
     override suspend fun authenticateUser(email: String, password: String): FirebaseSignInResponse {
         return try {
             val result = firebaseAuth.signInWithEmailAndPassword(email, password).await()
@@ -39,9 +44,27 @@ class AuthRepository
 
     override suspend fun createUser(name: String, email: String, password: String): FirebaseSignInResponse {
         return try {
+            val uri = Uri.parse("android.resource://com.example.petadoptionapp/drawable/default_user")
             val result = firebaseAuth.createUserWithEmailAndPassword(email, password).await()
-            result.user?.updateProfile(UserProfileChangeRequest.Builder().setDisplayName(name).build())?.await()
+            result.user?.updateProfile(UserProfileChangeRequest
+                .Builder()
+                .setDisplayName(name)
+                .setPhotoUri(uri)
+                .build())?.await()
             return Response.Success(result.user!!)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Response.Failure(e)
+        }
+    }
+
+    override suspend fun updatePhoto(uri: Uri) : FirebaseSignInResponse {
+        return try {
+            currentUser!!.updateProfile(UserProfileChangeRequest
+                .Builder()
+                .setPhotoUri(uri)
+                .build()).await()
+            return Response.Success(currentUser!!)
         } catch (e: Exception) {
             e.printStackTrace()
             Response.Failure(e)
