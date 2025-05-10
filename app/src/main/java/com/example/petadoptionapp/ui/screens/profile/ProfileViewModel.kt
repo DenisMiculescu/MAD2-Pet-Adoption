@@ -1,5 +1,6 @@
 package com.example.petadoptionapp.ui.screens.profile
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.petadoptionapp.firebase.services.AuthService
@@ -17,8 +18,14 @@ class ProfileViewModel @Inject constructor(
     val displayName get() = auth.currentUser?.displayName.toString()
     val photoUrl get() = auth.currentUser?.photoUrl.toString()
     val email get() = auth.currentUser?.email.toString()
+    val photoUri get() = authService.customPhotoUri
 
     fun signOut() {
         viewModelScope.launch { authService.signOut() }
     }
+
+    fun updatePhotoUri(uri: Uri) {
+        viewModelScope.launch { authService.updatePhoto(uri) }
+    }
+
 }

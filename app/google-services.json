@@ -12,7 +12,20 @@
           "package_name": "com.example.petadoptionapp"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "183793374785-uvcpjhepcu83ggusdloqm3vshkqicl5u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.petadoptionapp",
+            "certificate_hash": "bd4c47c2fa676784b92b5b7a89284429025d7c95"
+          }
+        },
+        {
+          "client_id": "183793374785-eua2137vgjvttk3bv12uo16ni3s3a05s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyB3ZIR3TRTHxPJJQTMt8jLpop5_Scwzw5U"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "183793374785-eua2137vgjvttk3bv12uo16ni3s3a05s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
