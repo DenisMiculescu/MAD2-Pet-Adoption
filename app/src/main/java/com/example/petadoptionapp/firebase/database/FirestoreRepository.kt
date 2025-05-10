@@ -13,7 +13,7 @@ import kotlinx.coroutines.tasks.await
 import java.util.Date
 import javax.inject.Inject
 
-class FirestoreRepository
+class   FirestoreRepository
 @Inject constructor(private val auth: AuthService,
                     private val firestore: FirebaseFirestore
 ) : FirestoreService {

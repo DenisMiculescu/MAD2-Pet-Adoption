@@ -36,7 +36,7 @@ constructor(private val serviceApi: AdoptionService)  {
     suspend fun update(email: String, adoption: AdoptionModel) : AdoptionWrapper
     {
         return withContext(Dispatchers.IO) {
-            val wrapper = serviceApi.put(email, adoption.id, adoption)
+            val wrapper = serviceApi.put(email, adoption._id, adoption)
             wrapper
         }
     }
@@ -44,7 +44,7 @@ constructor(private val serviceApi: AdoptionService)  {
     suspend fun delete(email: String, adoption: AdoptionModel) : Response<Void>
     {
         return withContext(Dispatchers.IO) {
-            val wrapper = serviceApi.delete(email, adoption.id)
+            val wrapper = serviceApi.delete(email, adoption._id)
             wrapper
         }
     }
