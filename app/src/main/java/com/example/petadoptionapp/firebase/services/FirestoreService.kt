@@ -15,5 +15,6 @@ interface FirestoreService {
     suspend fun update(email: String, adoption: Adoption)
     suspend fun delete(email: String, adoptionId: String)
     suspend fun updatePhotoUris(email: String, uri: Uri)
+    fun getAllAdoptions(): Flow<List<AdoptionModel>>
 
 }

@@ -72,6 +72,8 @@ dependencies {
 
     //Hilt
     implementation(libs.hilt.android)
+    implementation(libs.play.services.location)
+    implementation(libs.play.services.maps)
     ksp(libs.hilt.android.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
 
@@ -100,6 +102,12 @@ dependencies {
 
     //Coil
     implementation(libs.coil.compose)
+
+    //Google Maps
+    implementation(libs.android.maps.compose)
+
+    //Accompanist (Permission)
+    implementation(libs.accompanist.permissions)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

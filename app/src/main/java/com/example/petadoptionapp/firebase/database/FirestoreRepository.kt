@@ -1,6 +1,7 @@
 package com.example.petadoptionapp.firebase.database
 
 import android.net.Uri
+import com.example.petadoptionapp.data.model.AdoptionModel
 import com.example.petadoptionapp.data.rules.Constants.ADOPTION_COLLECTION
 import com.example.petadoptionapp.data.rules.Constants.USER_EMAIL
 import com.example.petadoptionapp.firebase.services.Adoption
@@ -10,6 +11,7 @@ import com.example.petadoptionapp.firebase.services.FirestoreService
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.dataObjects
 import com.google.firebase.firestore.toObject
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.tasks.await
 import timber.log.Timber
 import java.util.Date
@@ -81,5 +83,10 @@ class FirestoreRepository
                 Timber.i("Error $exception")
             }
     }
+
+    override fun getAllAdoptions(): Flow<List<AdoptionModel>> {
+        return firestore.collection(ADOPTION_COLLECTION).dataObjects()
+    }
+
 
 }

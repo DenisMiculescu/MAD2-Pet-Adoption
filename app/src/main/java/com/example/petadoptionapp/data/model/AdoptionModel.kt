@@ -23,5 +23,7 @@ data class AdoptionModel(
     var ownerName: String = "Owner Name",
     var ownerContact: String = "087 777 7777",
     var email: String = "joe@bloggs.com",
-    var imageUri: String = ""
+    var imageUri: String = "",
+    var latitude: Double = 0.0,
+    var longitude: Double = 0.0,
 )
