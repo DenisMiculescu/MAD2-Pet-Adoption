@@ -92,16 +92,17 @@ Challenges included managing Compose state across multiple ViewModels.
 
 ## UML & Class Diagrams
 
-![Class Diagram](app/src/res/drawable/adoption_model.png)
-![UML Diagram](app/src/res/drawable/uml_diagram.png)
+![adoption_model.png](app%2Fsrc%2Fmain%2Fres%2Fscreenshots%2Fadoption_model.png)
+![uml_diagram.png](app%2Fsrc%2Fmain%2Fres%2Fscreenshots%2Fuml_diagram.png)
 
 ---
 
 ## Screenshots
-![Listing Screen](app/src/res/drawable/listing_screen.png)
-![Listing Screen All Adoptions](app/src/res/drawable/listing_screen_all.png)
-![Map Screen](app/src/res/drawable/map_screen.png)
-![Login Screen](app/src/res/drawable/login_screen.png)
+
+![listing_screen.png](app%2Fsrc%2Fmain%2Fres%2Fscreenshots%2Flisting_screen.png)
+![listing_screen_all.png](app%2Fsrc%2Fmain%2Fres%2Fscreenshots%2Flisting_screen_all.png)
+![map_screen.png](app%2Fsrc%2Fmain%2Fres%2Fscreenshots%2Fmap_screen.png)
+![login_screen.png](app%2Fsrc%2Fmain%2Fres%2Fscreenshots%2Flogin_screen.png)
 
 
 ## References
