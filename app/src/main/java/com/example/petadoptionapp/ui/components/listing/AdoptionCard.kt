@@ -37,6 +37,7 @@ fun AdoptionCard(
     ownerContact: String,
     photoUri: Uri,
     onClickAdoptionDetails: () -> Unit,
+    onClickDelete: () -> Unit
 ) {
     Card(
         colors = CardDefaults.cardColors(
@@ -61,6 +62,7 @@ fun AdoptionCard(
             ownerContact,
             photoUri,
             onClickAdoptionDetails,
+            onClickDelete
         )
     }
 }
@@ -79,6 +81,7 @@ private fun AdoptionCardContent(
     ownerContact: String,
     photoUri: Uri,
     onClickAdoptionDetails: () -> Unit,
+    onClickDelete: () -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
     var showDeleteConfirmDialog by remember { mutableStateOf(false) }
@@ -166,6 +169,8 @@ private fun AdoptionCardContent(
             if (showDeleteConfirmDialog) {
                 ShowDeleteAlert(
                     onDismiss = { showDeleteConfirmDialog = false },
+                    onDelete = onClickDelete
+
                 )
             }
         }
@@ -175,6 +180,7 @@ private fun AdoptionCardContent(
 @Composable
 fun ShowDeleteAlert(
     onDismiss: () -> Unit,
+    onDelete: () -> Unit,
 ) {
     AlertDialog(
         onDismissRequest = onDismiss ,
@@ -183,6 +189,7 @@ fun ShowDeleteAlert(
         confirmButton = {
             Button(
                 onClick = {
+                    onDelete()
                 }
             ) { Text("Yes") }
         },

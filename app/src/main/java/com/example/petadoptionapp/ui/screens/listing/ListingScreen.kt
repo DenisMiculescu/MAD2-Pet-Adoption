@@ -61,7 +61,7 @@ fun ListingScreen(
                 .padding(vertical = 8.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
-        ) {
+       ) {
             ListingText()
 
             Text("Show All")

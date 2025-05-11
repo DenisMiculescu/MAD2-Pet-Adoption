@@ -66,5 +66,6 @@ constructor(
     fun deleteAdoption(adoption: AdoptionModel)
         = viewModelScope.launch {
             repository.delete(authService.email!!,adoption._id)
+            getAdoptions()
     }
 }
