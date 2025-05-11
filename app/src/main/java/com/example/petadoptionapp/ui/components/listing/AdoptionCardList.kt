@@ -105,7 +105,6 @@ internal fun AdoptionCardList(
                         ownerName = adoption.ownerName,
                         ownerContact = adoption.ownerContact,
                         photoUri = Uri.parse(adoption.imageUri),
-                        onClickDelete = { showDeleteConfirmDialog = true },
                         onClickAdoptionDetails = { onClickAdoptionDetails(adoption._id) },
                     )
 

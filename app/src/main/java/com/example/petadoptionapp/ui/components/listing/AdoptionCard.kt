@@ -7,7 +7,6 @@ import androidx.compose.animation.core.spring
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material3.*
@@ -37,7 +36,6 @@ fun AdoptionCard(
     ownerName: String,
     ownerContact: String,
     photoUri: Uri,
-    onClickDelete: () -> Unit,
     onClickAdoptionDetails: () -> Unit,
 ) {
     Card(
@@ -62,7 +60,6 @@ fun AdoptionCard(
             ownerName,
             ownerContact,
             photoUri,
-            onClickDelete,
             onClickAdoptionDetails,
         )
     }
@@ -81,7 +78,6 @@ private fun AdoptionCardContent(
     ownerName: String,
     ownerContact: String,
     photoUri: Uri,
-    onClickDelete: () -> Unit,
     onClickAdoptionDetails: () -> Unit,
 ) {
     var expanded by remember { mutableStateOf(false) }
@@ -106,27 +102,24 @@ private fun AdoptionCardContent(
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
-                    .size(50.dp)
+                    .size(60.dp)
                     .clip(CircleShape)
             )
+            Spacer(modifier = Modifier.width(12.dp))
 
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = petName,
-                    style = MaterialTheme.typography.headlineMedium.copy(
+                    style = MaterialTheme.typography.titleMedium.copy(
                         fontWeight = FontWeight.Bold
                     )
                 )
                 Text(
-                    text = if (petType == "Dog") "Dog" else "Cat",
+                    text = "$petType • $petBreed",
                     style = MaterialTheme.typography.bodyMedium
                 )
                 Text(
-                    text = "Breed: $petBreed",
-                    style = MaterialTheme.typography.bodyMedium
-                )
-                Text(
-                    text = "$ageYear years",
+                    text = "$ageYear yrs",
                     style = MaterialTheme.typography.bodyMedium
                 )
             }
@@ -148,11 +141,7 @@ private fun AdoptionCardContent(
                 style = MaterialTheme.typography.bodyMedium
             )
             Text(
-                text = "Owner Name: $ownerName",
-                style = MaterialTheme.typography.bodyMedium
-            )
-            Text(
-                text = "Contact: $ownerContact",
+                text = "Owner: $ownerName (${ownerContact})",
                 style = MaterialTheme.typography.bodyMedium
             )
             Text(
@@ -173,16 +162,10 @@ private fun AdoptionCardContent(
                 FilledTonalButton(onClick = onClickAdoptionDetails) {
                     Text(text = "Show More")
                 }
-                FilledTonalIconButton(onClick = {
-                    showDeleteConfirmDialog = true
-                }) {
-                    Icon(Icons.Filled.Delete, "Delete Adoption")
-                }
             }
             if (showDeleteConfirmDialog) {
                 ShowDeleteAlert(
                     onDismiss = { showDeleteConfirmDialog = false },
-                    onDelete = onClickDelete,
                 )
             }
         }
@@ -192,7 +175,6 @@ private fun AdoptionCardContent(
 @Composable
 fun ShowDeleteAlert(
     onDismiss: () -> Unit,
-    onDelete: () -> Unit,
 ) {
     AlertDialog(
         onDismissRequest = onDismiss ,
@@ -201,7 +183,6 @@ fun ShowDeleteAlert(
         confirmButton = {
             Button(
                 onClick = {
-                    onDelete()
                 }
             ) { Text("Yes") }
         },

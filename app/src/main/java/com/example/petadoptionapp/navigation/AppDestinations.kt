@@ -78,6 +78,6 @@ object Map : AppDestination {
     override val route = "Map"
 }
 
-val bottomAppBarDestinations = listOf(Adopt, Map, Listing, About, Profile)
+val bottomAppBarDestinations = listOf(Adopt, Map, Listing, Profile)
 val userSignedOutDestinations = listOf(Login, Register)
 val allDestinations = listOf(Listing, Adopt, About, Details, Home, Profile, Login, Register, Map)

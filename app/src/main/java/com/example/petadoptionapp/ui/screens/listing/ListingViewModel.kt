@@ -10,6 +10,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -27,27 +28,39 @@ constructor(
     var isLoading = mutableStateOf(false)
     var error = mutableStateOf(Exception())
 
+    var showAll = mutableStateOf(false)
+
+    fun toggleShowAll() {
+        showAll.value = !showAll.value
+        getAdoptions()
+    }
+
     init { getAdoptions() }
 
     fun getAdoptions() {
         viewModelScope.launch {
             try {
                 isLoading.value = true
-                repository.getAll(authService.email!!).collect { items ->
-                    _adoptions.value = items
-                    isErr.value = false
-                    isLoading.value = false
+
+                val result = if (showAll.value) {
+                    repository.getAllAdoptions().first()
+                } else {
+                    repository.getAll(authService.email!!).first()
                 }
-                Timber.i("DVM RVM = : ${_adoptions.value}")
-            }
-            catch(e:Exception) {
+
+                _adoptions.value = result
+                isErr.value = false
+
+            } catch (e: Exception) {
+                Timber.e(e)
                 isErr.value = true
-                isLoading.value = false
                 error.value = e
-                Timber.i("RVM Error ${e.message}")
+            } finally {
+                isLoading.value = false
             }
         }
     }
+
 
 
     fun deleteAdoption(adoption: AdoptionModel)

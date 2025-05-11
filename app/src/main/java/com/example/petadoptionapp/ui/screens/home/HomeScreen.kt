@@ -21,6 +21,7 @@ import com.example.petadoptionapp.navigation.bottomAppBarDestinations
 import com.example.petadoptionapp.navigation.userSignedOutDestinations
 import com.example.petadoptionapp.ui.components.general.BottomAppBarProvider
 import com.example.petadoptionapp.ui.components.general.TopAppBarProvider
+import com.example.petadoptionapp.ui.screens.listing.ListingViewModel
 import com.example.petadoptionapp.ui.screens.map.MapViewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
@@ -32,7 +33,8 @@ fun HomeScreen(
     modifier: Modifier = Modifier,
     homeViewModel: HomeViewModel = hiltViewModel(),
     navController: NavHostController = rememberNavController(),
-    mapViewModel: MapViewModel = hiltViewModel()
+    mapViewModel: MapViewModel = hiltViewModel(),
+    listingViewModel: ListingViewModel = hiltViewModel(),
 ) {
     val currentNavBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = currentNavBackStackEntry?.destination
@@ -68,13 +70,15 @@ fun HomeScreen(
 
     Scaffold(
         modifier = modifier,
-        topBar = { TopAppBarProvider(
+        topBar = {
+            TopAppBarProvider(
             navController = navController,
             currentScreen = currentBottomScreen,
             canNavigateBack = navController.previousBackStackEntry != null,
             email = userEmail!!,
-            name = userName!!
-        ) { navController.navigateUp() }
+            name = userName!!,
+                navigateUp = { navController.navigateUp() }
+        )
         },
         content = { paddingValues ->
             NavHostProvider(
