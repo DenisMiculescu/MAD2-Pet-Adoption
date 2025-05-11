@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.petadoptionapp.R
 import com.example.petadoptionapp.ui.theme.PetAdoptionAppTheme
+import timber.log.Timber
 
 @Composable
 fun RadioButtonGroup(modifier: Modifier = Modifier,
@@ -50,17 +51,5 @@ fun RadioButtonGroup(modifier: Modifier = Modifier,
                 )
             }
         }
-    }
-}
-
-
-@Preview(showBackground = true)
-@Composable
-fun RadioButtonPreview() {
-    PetAdoptionAppTheme {
-        RadioButtonGroup(
-            Modifier,
-            onPaymentTypeChange = {}
-        )
     }
 }

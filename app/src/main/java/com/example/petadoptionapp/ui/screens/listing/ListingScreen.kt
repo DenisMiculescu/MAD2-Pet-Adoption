@@ -80,7 +80,6 @@ fun ListingScreen(
                     onDeleteAdoption = { adoption: AdoptionModel ->
                         listingViewModel.deleteAdoption(adoption)
                     },
-                    onRefreshList = { listingViewModel.getAdoptions() }
                 )
             }
 

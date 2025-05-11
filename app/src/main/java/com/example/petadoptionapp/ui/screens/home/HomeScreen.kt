@@ -56,15 +56,15 @@ fun HomeScreen(
         userSignedOutDestinations
     else bottomAppBarDestinations
 
-    if (isActiveSession)
-        startScreen = Listing
-        LaunchedEffect(locationPermissions.allPermissionsGranted) {
-            locationPermissions.launchMultiplePermissionRequest()
-            if (locationPermissions.allPermissionsGranted) {
-                mapViewModel.setPermissions(true)
-                mapViewModel.getLocationUpdates()
+        if (isActiveSession)
+            startScreen = Listing
+            LaunchedEffect(locationPermissions.allPermissionsGranted) {
+                locationPermissions.launchMultiplePermissionRequest()
+                if (locationPermissions.allPermissionsGranted) {
+                    mapViewModel.setPermissions(true)
+                    mapViewModel.getLocationUpdates()
+                }
             }
-        }
 
     Scaffold(
         modifier = modifier,
